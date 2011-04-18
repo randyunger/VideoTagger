@@ -82,7 +82,7 @@
                 window.setTimeout(function(){
                     var eventList = timeLine.checkEvents(selector);
                     if(eventList.length>0) timeLine.doEvents(eventList);
-                    timeLine.startPoll(selector);
+                    timeLine.startPoll(selector);          //test comment
                 },1000)
             };
         };
