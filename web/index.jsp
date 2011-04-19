@@ -86,7 +86,7 @@
                 },1000)
             };
         };
-//        draw(); //another comment
+//        draw();
         timeLine.register(data);
         timeLine.startPoll("#video");
 //        $("body").click(toggleVideo());
