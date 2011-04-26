@@ -29,7 +29,6 @@
             <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-xc:1.7.1" />
             <element id="library" level="project" name="Maven: log4j:log4j:1.2.16" />
             <element id="library" level="project" name="Maven: org.scala-lang:scala-library:2.8.1" />
-            <element id="library" level="project" name="Maven: org.scala-lang:scala-compiler:2.8.1" />
           </element>
         </element>
       </root>
@@ -70,6 +69,11 @@
   </component>
   <component name="FacetAutodetectingManager">
     <autodetection-disabled>
+      <facet-type id="scala">
+        <modules>
+          <module name="my-app" />
+        </modules>
+      </facet-type>
       <facet-type id="web">
         <modules>
           <module name="my-app" />
@@ -421,6 +425,14 @@
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jettison/jettison/1.1/jettison-1.1-sources.jar!/" />
       </SOURCES>
+    </library>
+    <library name="Maven: org.scala-lang:scala-compiler-bundle:WrappedArray(2.8.1)">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.1/scala-compiler-2.8.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.1/scala-library-2.8.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
     </library>
     <library name="Maven: org.scala-lang:scala-compiler:2.8.1">
       <CLASSES>
