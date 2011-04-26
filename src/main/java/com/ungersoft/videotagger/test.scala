@@ -1,3 +1,5 @@
+package com.ungersoft.videotagger
+
 /**
  * Created by IntelliJ IDEA.
  * User: Randy
