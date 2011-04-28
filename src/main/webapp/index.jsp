@@ -9,7 +9,7 @@
 <html>
 
  <head>
-    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="docs/jquery.js"></script>
     <script type="application/javascript">
      $(document).ready(function(){
    // Your code here

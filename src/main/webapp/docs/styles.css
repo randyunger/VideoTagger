@@ -1,0 +1,21 @@
+
+
+.header{
+    font-size:20px;
+    height:200px;
+}
+
+.topContent{
+
+}
+
+.canvas{
+    float:left;
+}
+
+.input > input{
+    float:right;
+    width: 100px;
+    font: 18px Arial, sans-serif;
+    border: 5px solid #666;
+}
