@@ -190,6 +190,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Scala" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.objectify:objectify:3.0" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-server:1.6" level="project" />
     <orderEntry type="library" name="Maven: asm:asm:3.1" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-core:1.6" level="project" />

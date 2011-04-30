@@ -1,5 +1,7 @@
 package com.ungersoft.videotagger.datastore
 
+import com.ungersoft.videotagger.pojos.Ad
+
 /**
  * Created by IntelliJ IDEA.
  * User: Randy
@@ -8,7 +10,7 @@ package com.ungersoft.videotagger.datastore
  * To change this template use File | Settings | File Templates.
  */
 
-abstract class AbstractDataStore{
-  def store()
-  def retrieve()
+trait AbstractDataStore{
+  def store(ad:Ad)
+  def retrieve(id:String)
 }
