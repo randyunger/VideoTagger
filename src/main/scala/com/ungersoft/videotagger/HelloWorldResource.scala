@@ -15,6 +15,6 @@ import javax.ws.rs.Path
 @Path("/helloworld") class HelloWorldResource {
   @GET
   @Produces(Array("text/plain")) def getMessage: String = {
-    return "Hello World scala"
+    return "Hello World scalax"
   }
 }
