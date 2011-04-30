@@ -11,7 +11,7 @@ import javax.persistence._
  */
 
 @Unindexed
-class AdA{
+class Ad{
   @javax.persistence.Id  val id:Long = null
   val copy = "The first ad is right here! Click now!"
   val title = "First ad!"
