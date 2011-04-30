@@ -1,5 +1,7 @@
 package com.ungersoft.videotagger.pojos
 
+import com.googlecode.objectify.annotation.{Indexed, Unindexed}
+import javax.persistence._
 /**
  * Created by IntelliJ IDEA.
  * User: Randy
@@ -8,6 +10,10 @@ package com.ungersoft.videotagger.pojos
  * To change this template use File | Settings | File Templates.
  */
 
+@Unindexed
 class ad{
-
+  @javax.persistence.Id  val id:Long = null
+  val copy = "The first ad is right here! Click now!"
+  val title = "First ad!"
+  val label = "First ad - 1"
 }
