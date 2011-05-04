@@ -13,6 +13,7 @@
             <element id="module-output" name="my-app" />
           </element>
           <element id="directory" name="lib">
+            <element id="library" level="project" name="Maven: javax.persistence:persistence-api:1.0" />
             <element id="library" level="project" name="Maven: com.googlecode.objectify:objectify:3.0" />
             <element id="library" level="project" name="Maven: com.sun.jersey:jersey-server:1.6" />
             <element id="library" level="project" name="Maven: asm:asm:3.1" />
@@ -30,6 +31,13 @@
             <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-xc:1.7.1" />
             <element id="library" level="project" name="Maven: log4j:log4j:1.2.16" />
             <element id="library" level="project" name="Maven: org.scala-lang:scala-library:2.8.1" />
+            <element id="library" level="project" name="Maven: javax.jdo:jdo2-api:2.3-eb" />
+            <element id="library" level="project" name="Maven: javax.transaction:jta:1.1" />
+            <element id="library" level="project" name="Maven: com.google.appengine.orm:datanucleus-appengine:1.0.4.1" />
+            <element id="library" level="project" name="Maven: org.datanucleus:datanucleus-core:1.1.5" />
+            <element id="library" level="project" name="Maven: com.google.appengine:datanucleus-jpa:1.1.5" />
+            <element id="library" level="project" name="Maven: com.google.appengine:geronimo-jpa_3.0_spec:1.1.1" />
+            <element id="library" level="project" name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.4.3" />
           </element>
         </element>
       </root>
@@ -251,6 +259,14 @@
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
+    <library name="GAE">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/src/main/resources" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/src/main/resources" recursive="false" />
+    </library>
     <library name="Maven: asm:asm:3.1">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/asm/asm/3.1/asm-3.1.jar!/" />
@@ -260,6 +276,50 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/asm/asm/3.1/asm-3.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.appengine.orm:datanucleus-appengine:1.0.4.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/orm/datanucleus-appengine/1.0.4.1/datanucleus-appengine-1.0.4.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/orm/datanucleus-appengine/1.0.4.1/datanucleus-appengine-1.0.4.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/orm/datanucleus-appengine/1.0.4.1/datanucleus-appengine-1.0.4.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.4.3">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/appengine-api-1.0-sdk/1.4.3/appengine-api-1.0-sdk-1.4.3.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/appengine-api-1.0-sdk/1.4.3/appengine-api-1.0-sdk-1.4.3-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/appengine-api-1.0-sdk/1.4.3/appengine-api-1.0-sdk-1.4.3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.appengine:datanucleus-jpa:1.1.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/datanucleus-jpa/1.1.5/datanucleus-jpa-1.1.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/datanucleus-jpa/1.1.5/datanucleus-jpa-1.1.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/datanucleus-jpa/1.1.5/datanucleus-jpa-1.1.5-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.google.appengine:geronimo-jpa_3.0_spec:1.1.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/geronimo-jpa_3.0_spec/1.1.1/geronimo-jpa_3.0_spec-1.1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/geronimo-jpa_3.0_spec/1.1.1/geronimo-jpa_3.0_spec-1.1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/google/appengine/geronimo-jpa_3.0_spec/1.1.1/geronimo-jpa_3.0_spec-1.1.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: com.googlecode.objectify:objectify:3.0">
@@ -326,6 +386,39 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/javax/activation/activation/1.1/activation-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: javax.jdo:jdo2-api:2.3-eb">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/jdo/jdo2-api/2.3-eb/jdo2-api-2.3-eb.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/jdo/jdo2-api/2.3-eb/jdo2-api-2.3-eb-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/jdo/jdo2-api/2.3-eb/jdo2-api-2.3-eb-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: javax.persistence:persistence-api:1.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/persistence-api/1.0/persistence-api-1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/persistence-api/1.0/persistence-api-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/persistence-api/1.0/persistence-api-1.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: javax.transaction:jta:1.1">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/transaction/jta/1.1/jta-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/transaction/jta/1.1/jta-1.1-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/transaction/jta/1.1/jta-1.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: javax.xml.bind:jaxb-api:2.2.2">
@@ -425,6 +518,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/jettison/jettison/1.1/jettison-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.datanucleus:datanucleus-core:1.1.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/datanucleus/datanucleus-core/1.1.5/datanucleus-core-1.1.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/datanucleus/datanucleus-core/1.1.5/datanucleus-core-1.1.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/datanucleus/datanucleus-core/1.1.5/datanucleus-core-1.1.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.scala-lang:scala-compiler-bundle:WrappedArray(2.8.1)">

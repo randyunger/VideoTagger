@@ -190,6 +190,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Scala" level="project" />
+    <orderEntry type="library" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.objectify:objectify:3.0" level="project" />
     <orderEntry type="library" name="Maven: com.sun.jersey:jersey-server:1.6" level="project" />
     <orderEntry type="library" name="Maven: asm:asm:3.1" level="project" />
@@ -208,6 +209,13 @@
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.16" level="project" />
     <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.8.1" level="project" />
+    <orderEntry type="library" name="Maven: javax.jdo:jdo2-api:2.3-eb" level="project" />
+    <orderEntry type="library" name="Maven: javax.transaction:jta:1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine.orm:datanucleus-appengine:1.0.4.1" level="project" />
+    <orderEntry type="library" name="Maven: org.datanucleus:datanucleus-core:1.1.5" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.appengine:datanucleus-jpa:1.1.5" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.appengine:geronimo-jpa_3.0_spec:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.appengine:appengine-api-1.0-sdk:1.4.3" level="project" />
   </component>
 </module>
 

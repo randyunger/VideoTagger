@@ -12,5 +12,5 @@ import com.ungersoft.videotagger.pojos.Ad
 
 trait AbstractDataStore{
   def store(ad:Ad)
-  def retrieve(id:String)
+  def retrieve(id:Long):Ad
 }

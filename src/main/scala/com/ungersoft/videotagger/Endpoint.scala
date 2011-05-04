@@ -36,8 +36,8 @@ class Endpoint {
   @Path("/retrieve/{id}")
   @Produces(Array("text/plain"))
   def get(@PathParam("id") id:String): String = {
-    val res = ds.retrieve(id)
+    val res:Ad = ds.retrieve(id.toLong)
     println(id)
-    return id
+    return res.copy
   }
 }
