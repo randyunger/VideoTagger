@@ -8,9 +8,10 @@ package com.ungersoft.videotagger.pojos
  * To change this template use File | Settings | File Templates.
  */
 
-class user{
+class xser{
   var id = "";
   var email = "";
   var pwd = "";
   var videos = List.empty[Long]
+
 }
