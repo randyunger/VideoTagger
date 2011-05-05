@@ -8,4 +8,6 @@ package com.ungersoft.videotagger.pojos
  * To change this template use File | Settings | File Templates.
  */
 
-class positionx
+class productx{
+
+}
