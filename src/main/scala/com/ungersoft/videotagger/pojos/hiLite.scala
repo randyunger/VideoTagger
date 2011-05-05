@@ -1,19 +1,19 @@
 package com.ungersoft.videotagger.pojos
 
-import com.googlecode.objectify.annotation.Unindexed
 import javax.persistence.Id
+import com.googlecode.objectify.annotation.Unindexed
 
 /**
  * Created by IntelliJ IDEA.
  * User: Randy
- * Date: 4/26/11
- * Time: 9:32 PM
+ * Date: 5/4/11
+ * Time: 6:07 PM
  * To change this template use File | Settings | File Templates.
  */
 
 @Unindexed
-class Product3{
-  @Id  var id:java.lang.Long = null
-  var link:String = _
-  var imgUrl:String = _
+class HiLite{
+  @Id var id:java.lang.Long = null
+  var ad:Ad = _
+  var position:HiLitePosition = _
 }

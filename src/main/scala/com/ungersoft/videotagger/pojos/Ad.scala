@@ -11,10 +11,19 @@ import javax.persistence.Id
  * To change this template use File | Settings | File Templates.
  */
 
-//@Unindexed
+@Unindexed
 class Ad{
   @Id  var id:java.lang.Long = null
-  val copy = "The first ad is right here! Click now!"
-  val title = "First ad!"
-  val label = "First ad - 1"
+  var title:String = _
+  var label:String = _
+  var copy:String = _
+  var product:Product = _
+
+  def this(id:Long, title:String, label:String, copy:String){
+    this()
+    this.id= if(id==0) null else id
+    this.title=title
+    this.label=label
+    this.copy=copy
+  }
 }

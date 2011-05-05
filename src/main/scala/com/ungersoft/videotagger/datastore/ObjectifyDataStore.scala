@@ -20,12 +20,12 @@ class ObjectifyDataStore extends  AbstractDataStore {
 
   val os:Objectify = ObjectifyService.begin();
 
-  def store(ad:Ad) ={
-    os.put[Ad](ad)       //put is overloaded because objectify has methods with single and repeating param [(T) and (T...)] and scala cannot choose between them
+  def store[T](t:T) ={
+    os.put[T](t)       //put is overloaded because objectify has methods with single and repeating param [(T) and (T...)] and scala cannot choose between them
     logger.warn("test")
   }
 
-  def retrieve(id:Long):Ad = {
-    os.find(classOf[Ad], id)
+  def retrieve[T](clazz:Class[T], id:Long):T = {
+    os.find(clazz, id).asInstanceOf[T]
   }
 }

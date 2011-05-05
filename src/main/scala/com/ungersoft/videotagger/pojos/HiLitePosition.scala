@@ -12,8 +12,14 @@ import javax.persistence.Id
  */
 
 @Unindexed
-class Product2{
+class HiLitePosition{
   @Id  var id:java.lang.Long = null
-  var link:String = _
-  var imgUrl:String = _
+  var startFrame:Long = _
+  var endFrame:Long = _
+
+  var upLeft_Start:Int = _
+  var lowRight_Start:Int = _
+
+  var upLeft_End:Int = _
+  var lowRight_End:Int = _
 }

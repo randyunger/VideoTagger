@@ -13,9 +13,18 @@
     float:left;
 }
 
-.input > input{
+.adInput{
+/* > input{*/
     float:right;
-    width: 100px;
+    width: 300px;
     font: 18px Arial, sans-serif;
     border: 5px solid #666;
 }
+
+
+ #canvas{
+     position:absolute; top:50px; left:0px; z-index:1;
+ }
+ #video{
+     position:absolute; top:0px; left:0px;
+ }
