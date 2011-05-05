@@ -1,5 +1,8 @@
 package com.ungersoft.videotagger.pojos
 
+import com.googlecode.objectify.annotation.Unindexed
+import javax.persistence.Id
+
 /**
  * Created by IntelliJ IDEA.
  * User: Randy
@@ -8,6 +11,9 @@ package com.ungersoft.videotagger.pojos
  * To change this template use File | Settings | File Templates.
  */
 
-class productx{
-
+@Unindexed
+class Product3{
+  @Id  var id:java.lang.Long = null
+  var link:String = _
+  var imgUrl:String = _
 }
