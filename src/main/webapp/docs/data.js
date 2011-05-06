@@ -7,14 +7,31 @@
  */
 
 $(document).ready(function(){
+    var email = $("#email").text();
+    if(email) loadInitData(email);
     hookupButtons();
 });
+
+function loadInitData(email){
+    $.ajax({
+         type:"GET"
+        ,url:"/api/account"
+        ,data: "email="+email
+        ,dataType: "json"
+        ,success:function(data){
+            debugger;
+        }
+        ,error:function(data){
+            debugger;
+        }
+    });
+}
 
 //var  =
 function hookupButtons (){
     $("#saveAd").click(function(){
         var opts = {
-             type:"Ad"
+             type:"ad"
             ,value:$("#saveAd").closest("div").find(":input").serialize()
         };
         save(opts);
@@ -24,7 +41,7 @@ function hookupButtons (){
 //var save =
 function save (opts){
     var props = {
-         type: "Ad"
+         type: "ad"
         ,value:"title='blank'"
 //        ,value: {
 //             copy:  "A new ad. Buy now!"
@@ -32,10 +49,11 @@ function save (opts){
 //            ,label: "Not shown to user"
 //        }
     };
-debugger;
+//debugger;
     $.extend(true, props, opts);
 
-    var url = "/api/save"+props["type"];
+//    var url = "/api/save"+props["type"];
+    var url = "/api/"+props["type"];
     var data = props["value"];
 
     $.ajax({

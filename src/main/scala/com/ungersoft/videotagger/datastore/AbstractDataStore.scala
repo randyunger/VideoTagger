@@ -13,5 +13,7 @@ import com.ungersoft.videotagger.pojos.Ad
 trait AbstractDataStore{
   def store[T](t:T)
   def retrieve[T](clazz:Class[T], id:Long):T
+  def retrieve[T](clazz:Class[T], id:String):T
+//  def find[T](clazz:Class[T], id:Long):T
 //  def retrieve[T](id:Long):T
 }

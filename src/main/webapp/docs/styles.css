@@ -1,10 +1,5 @@
 
 
-.header{
-    font-size:20px;
-    height:200px;
-}
-
 .topContent{
 
 }
@@ -21,10 +16,30 @@
     border: 5px solid #666;
 }
 
+#canvas{
+    position:absolute; top:50px; left:0px; z-index:1;
+ }
 
- #canvas{
-     position:absolute; top:50px; left:0px; z-index:1;
- }
- #video{
-     position:absolute; top:0px; left:0px;
- }
+#video{
+    position:absolute; top:0px; left:0px;
+}
+
+.logInOut{
+    float:right;
+    /*padding-right:100px;*/
+    /*padding-left:100px;*/
+}
+
+.main{
+    width:80%;
+    padding-left:100px;
+    padding-right:100px;
+}
+
+.header{
+    font-size:20px;
+    height:200px;
+    width:80%;
+    padding-left:100px;
+    padding-right:100px;
+}

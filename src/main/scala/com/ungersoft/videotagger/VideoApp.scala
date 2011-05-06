@@ -2,7 +2,7 @@ package com.ungersoft.videotagger
 
 import com.sun.jersey.api.core.PackagesResourceConfig
 import com.googlecode.objectify.ObjectifyService
-import pojos.{Media, HiLitePosition, HiLite, Ad, Product}
+import pojos._
 
 /**
 * Created by IntelliJ IDEA.
@@ -17,11 +17,7 @@ class VideoApp extends PackagesResourceConfig("com.ungersoft.videotagger") {
   ObjectifyService.register(classOf[Ad])
   ObjectifyService.register(classOf[HiLite])
   ObjectifyService.register(classOf[HiLitePosition])
-  ObjectifyService.register(classOf[Media])
+  ObjectifyService.register(classOf[Medium])
   ObjectifyService.register(classOf[Product])
-//  def this() {
-////    this ()
-//    this()
-//    super.("com.ungersoft.videotagger")
-//  }
+  ObjectifyService.register(classOf[Account])
 }

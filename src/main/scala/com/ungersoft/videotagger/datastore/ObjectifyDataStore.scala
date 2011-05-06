@@ -13,7 +13,7 @@ import org.apache.log4j.Logger
  * To change this template use File | Settings | File Templates.
  */
                                  //DAOBase with
-class ObjectifyDataStore extends  AbstractDataStore {
+class ObjectifyDataStore extends AbstractDataStore {
 
   val logger = Logger.getLogger(this.getClass)
 //  ObjectifyService.register(YourOtherEntity.class);
@@ -28,4 +28,12 @@ class ObjectifyDataStore extends  AbstractDataStore {
   def retrieve[T](clazz:Class[T], id:Long):T = {
     os.find(clazz, id).asInstanceOf[T]
   }
+
+  def retrieve[T](clazz:Class[T], id:String):T = {
+    os.find(clazz, id).asInstanceOf[T]
+  }
+
+//   def find[T](clazz:Class[T], id:Long):T = {
+//
+//   }
 }
