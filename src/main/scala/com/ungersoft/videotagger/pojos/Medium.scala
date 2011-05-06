@@ -12,7 +12,7 @@ import com.googlecode.objectify.annotation.Unindexed
  */
 
 @Unindexed
-class Media{
+class Medium{
   @Id  var id:java.lang.Long = null
   var title:String = _
   var ads:List[HiLite] = _
