@@ -1,5 +1,7 @@
 var colors = new Array();
 function getColor(group){
+//    if(group>50000) debugger;
+//    debugger;
     if(!colors[group]) {
         colors[group] = {
              r:Math.random()*255
@@ -30,15 +32,20 @@ function edge(input, context) {
             groupSizes.sort(function(a,b){
                 return b.size-a.size;
             });
-            return groupSizes.slice(0,1);
+            return groupSizes.slice(0,5);
         }
 
         function getPixels(groupNum){
             var gStr = groups[groupNum];
-            return gStr.split(".")
+            var expl =  gStr.split(".");
+            var inv = new Array();
+            for(var i=0;i<expl.length;i++){
+                inv[expl[i]]=1;
+            }
+            return inv;
         }
 
-        debugger;
+
 //        var gr = getBiggestGroups();
 //        for(var i=0;i<gr.length;i++){   //get pixels in each group
 //            var pix = getPixels(gr[i].group);
@@ -52,12 +59,40 @@ function edge(input, context) {
 //                hitData.data[pix[j]+3]=127;
 //            }
 //        }
+//                                         debugger;
+//        var gr,pix;
+//        try{
+//            var gr = getBiggestGroups();
+//            if(gr.length==0) return;
+//            var pix = getPixels(gr[0].group);
+//            if(!pix) return;
+//        }catch(e){
+////            debugger;
+//        }
 
-        for(var i=0;i<hitData.data.length;i+=4){
-            hitData.data[i]=255;
-            hitData.data[i+1]=255;
-            hitData.data[i+2]=255;
-            hitData.data[i+3]=127;
+        var gr = getBiggestGroups();
+        if(gr.length==0) return;
+
+        for(var igr=0;igr<gr.length;igr++){
+            var pix = getPixels(gr[igr].group);
+            if(!pix) continue;
+
+            for(var i=0;i<hitData.data.length;i+=4){
+                if(i%(w*4)>12 || (i>w*4*12)) {
+                    if(pix[i]) {
+                        hitData.data[i]=getColor(igr).r;
+                        hitData.data[i+1]=getColor(igr).g;
+                        hitData.data[i+2]=getColor(igr).b;
+                        hitData.data[i+3]=255;
+                    }
+                }
+                else {            //draw in top left corner
+                    hitData.data[i]=getColor(0).r;
+                    hitData.data[i+1]=getColor(0).g;
+                    hitData.data[i+2]=getColor(0).b;
+                    hitData.data[i+3]=255;
+                }
+            }
         }
 
         hitContext.putImageData(hitData, 0,0);
@@ -132,7 +167,7 @@ function edge(input, context) {
             b2 = bp + bc + bn;
 
             //todo scalable scan width
-            //todo scalable threshold
+            //todo scalable threshold - ui
             var thresh = 250;
 
             var edge = 0;
