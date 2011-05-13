@@ -22,9 +22,10 @@ $(document).ready(function(){
             $("#video").get(0).pause();
             debugger;
             var coords = getRelCoords(e);
-            var len = myScene.objs.length;
-            for(var i=0;i<len;i++){
-                var obj = myScene.objs[i];
+//            var len = myScene.objs.length;
+//            for(var i=0;i<len;i++){
+            for(var ix in myScene.objs){
+                var obj = myScene.objs[ix];
                 if(obj && obj.click && obj.containsPoint && obj.containsPoint(coords)){
                     obj.click(coords);
                 }
@@ -41,10 +42,10 @@ $(document).ready(function(){
                             myScene.objs[i].draw(myScene.context);
                         }
                     }
-                    myScene.modified=false;
                 }
             }
             finally{
+                myScene.modified=false;
                 setTimeout(myScene.draw, 100);
             }
         };
@@ -65,7 +66,7 @@ $(document).ready(function(){
         this.w=w;
         this.click = click;
         this.draw=function(ctx){
-            debugger;
+//            debugger;
             ctx.fillStyle = this.color; //"rgba(200,200,200,0.4)";
             ctx.fillRect(this.x, this.y, this.w, this.h);
             ctx.clearRect(this.x+this.borderWidth, this.y+this.borderWidth
@@ -73,9 +74,9 @@ $(document).ready(function(){
         };
         this.containsPoint=function(coords){
             if(coords.x >= this.x &&
-               coords.x <= this.x+this.width &&
+               coords.x <= this.x+this.w &&
                coords.y >= this.y &&
-               coords.y <= this.y+this.width     )
+               coords.y <= this.y+this.h     )
                 return true;
             else return false;
         };
@@ -176,6 +177,7 @@ $(document).ready(function(){
     myScene = new Scene(ctx);
     myScene.draw();
 
+    canvas.rMode = "draw";
     var rect, pressed;
     canvas.onmousedown = function(event) {
         var tRect=event.target.getClientRects()[0];
@@ -184,6 +186,7 @@ $(document).ready(function(){
                 width: 1, height: 1};
         pressed = true;
     };
+
     canvas.onmouseup = function(event) {
         pressed = false;
 //        debugger;
@@ -204,7 +207,7 @@ $(document).ready(function(){
 //    }
 
     canvas.onmousemove = function(event) {
-        if (!rect || !pressed) { return; }
+        if (!rect || !pressed || canvas.rMode!="draw") { return; }
 //        debug();
         var tRect=event.target.getClientRects()[0];
         rect.width = event.clientX - tRect.left - rect.x;
@@ -214,7 +217,7 @@ $(document).ready(function(){
         hiLiteRect.y = rect.y;
         hiLiteRect.w = rect.width;
         hiLiteRect.h = rect.height;
-
+//debugger;
             myScene.modified=true;
 //        myScene.add(hiLiteRect);
 
@@ -223,7 +226,8 @@ $(document).ready(function(){
     };
 
     canvas.onclick = function(event){
-        myScene.click(event);
+        if(canvas.rMode=="draw") canvas.rMode="select";
+        else myScene.click(event);
     };
 
 
