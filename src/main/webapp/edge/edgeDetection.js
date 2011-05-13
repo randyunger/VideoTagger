@@ -1,7 +1,5 @@
 var colors = new Array();
 function getColor(group){
-//    if(group>50000) debugger;
-//    debugger;
     if(!colors[group]) {
         colors[group] = {
              r:Math.random()*255
@@ -13,7 +11,6 @@ function getColor(group){
 }
 
 function edge(input, context) {
-//    debugger;
     var w = input.width, h = input.height;
     var output = context.createImageData(w, h);
     var inputData = input.data;
@@ -58,16 +55,6 @@ function edge(input, context) {
 //                hitData.data[pix[j]+2]=getColor(gr[i].group).b;
 //                hitData.data[pix[j]+3]=127;
 //            }
-//        }
-//                                         debugger;
-//        var gr,pix;
-//        try{
-//            var gr = getBiggestGroups();
-//            if(gr.length==0) return;
-//            var pix = getPixels(gr[0].group);
-//            if(!pix) return;
-//        }catch(e){
-////            debugger;
 //        }
 
         var gr = getBiggestGroups();
@@ -135,7 +122,6 @@ function edge(input, context) {
         
         // Main convolution loop
         for (var x = 1; x < wm1; ++x) {
-//debugger;
             centerRow = pixel + 4;
             priorRow = centerRow - bytesPerRow;
             nextRow = centerRow + bytesPerRow;
@@ -168,7 +154,7 @@ function edge(input, context) {
 
             //todo scalable scan width
             //todo scalable threshold - ui
-            var thresh = 250;
+            var thresh = 200;
 
             var edge = 0;
             if(r - r2 > thresh) edge = 255;
@@ -180,7 +166,8 @@ function edge(input, context) {
                 var group = hitCounter++;
                 hits[pixel] = group;
                 //scan backwards for adj hits
-                var prevAdjPix = findPrevAdjPix(pixel, w);
+                var radius = 1;
+                var prevAdjPix = findPrevAdjPix(pixel, w, radius);
 
                 for(var i=0;i<prevAdjPix.length;i++){
                     var prevPix=prevAdjPix[i];
@@ -194,7 +181,7 @@ function edge(input, context) {
                                    //track group size
                 if(!groups[group]) groups[group] = pixel;         //1;
                 else groups[group] = groups[group]+"."+pixel;                   //groups[group]+1;
-//                debugger;
+
                 if(!groupSizes[group]) groupSizes[group] = {group:group, size:1};
                 else groupSizes[group] = {group:group, size:groupSizes[group].size+1};
                 //inc group counter
@@ -215,7 +202,7 @@ function edge(input, context) {
     }
 
 
-    showHits(hitData);
+    showHits();
 
     return output;
 }
@@ -259,13 +246,31 @@ function edge(input, context) {
 //        response[response.length] = pixel - width*4 - 4;
 //    }
 //    if(pixel - 4 > 0) response[response.length] = pixel - 4;
-function findPrevAdjPix(pixel, width){
-    var left = pixel - 4;
-    var up = pixel - width*4;
-    var upLeft = up - 4;
-    var upRight = up + 4;
-    return Array (upLeft, up, upRight, left);
+function findPrevAdjPix(pixel, width, radius){
+    var byteWidth = width*4;
+    var res = new Array();
+    var prevRow = (Math.floor(pixel/byteWidth)-radius)*byteWidth;
+    var firstPix = prevRow+(pixel % byteWidth) - radius *4;
+
+    for(var i=firstPix;i<pixel;i+=4){
+        if(i%byteWidth - pixel%byteWidth > radius*4) {    //if done with this row
+            i = (Math.floor(i/byteWidth)+1)*byteWidth + (pixel%byteWidth) - (radius+1)*4;            //skip to next row
+            continue;
+        }
+        res[res.length]=i;
+    }
+//    for(var r=0;)
+
+    return res;
 }
+
+
+//    var left = pixel - 4;
+//    var up = pixel - width*4;
+//    var upLeft = up - 4;
+//    var upRight = up + 4;
+//    return Array (upLeft, up, upRight, left);
+//}
 
 //0123|4567|8901|2345
 //rgba|rgba|rgba|rgba

@@ -19,10 +19,10 @@ function loadInitData(email){
         ,data: "email="+email
         ,dataType: "json"
         ,success:function(data){
-            debugger;
+//            debugger;
         }
         ,error:function(data){
-            debugger;
+//            debugger;
         }
     });
 }
@@ -32,7 +32,7 @@ function hookupButtons (){
     $("#saveAd").click(function(){
         var opts = {
              type:"ad"
-            ,value:$("#saveAd").closest("div").find(":input").serialize()
+            ,value:$("#saveAd").closest("form").find(":input").serialize()
         };
         save(opts);
     });
@@ -49,7 +49,7 @@ function save (opts){
 //            ,label: "Not shown to user"
 //        }
     };
-//debugger;
+
     $.extend(true, props, opts);
 
 //    var url = "/api/save"+props["type"];
@@ -62,10 +62,10 @@ function save (opts){
         ,data: data
         ,dataType: "json"
         ,success:function(data){
-            debugger;
+//            debugger;
         }
         ,error:function(data){
-            debugger;
+//            debugger;
         }
     });
 

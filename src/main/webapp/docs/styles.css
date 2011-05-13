@@ -1,4 +1,14 @@
+.sectHead{
+    float:left;
+}
 
+.saveButton{
+    float:right;
+}
+
+.clear{
+    clear:both;
+}
 
 .topContent{
 

@@ -1,4 +1,4 @@
-package com.ungersoft.videotagger.datastore
+package com.ungersoft.videotagger.services.datastore
 
 import com.ungersoft.videotagger.pojos.Ad
 
@@ -12,8 +12,12 @@ import com.ungersoft.videotagger.pojos.Ad
 
 trait AbstractDataStore{
   def store[T](t:T)
-  def retrieve[T](clazz:Class[T], id:Long):T
-  def retrieve[T](clazz:Class[T], id:String):T
+
+  def retrieve[T](clazz:Class[T], id:Long):Option[T]
+//  def retrieve[T](clazz:Class[T], id:Array[Long]):Option[T]
+
+  def retrieve[T](clazz:Class[T], id:String):Option[T]
+//  def retrieve[T](clazz:Class[T], id:Array[String]):Option[T]
 //  def find[T](clazz:Class[T], id:Long):T
 //  def retrieve[T](id:Long):T
 }

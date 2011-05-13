@@ -1,4 +1,4 @@
-package com.ungersoft.videotagger.datastore
+package com.ungersoft.videotagger.services.datastore
 
 import com.googlecode.objectify.util.DAOBase
 import com.ungersoft.videotagger.pojos.Ad
@@ -25,13 +25,33 @@ class ObjectifyDataStore extends AbstractDataStore {
     logger.warn("test")
   }
 
-  def retrieve[T](clazz:Class[T], id:Long):T = {
-    os.find(clazz, id).asInstanceOf[T]
+  def retrieve[T](clazz:Class[T], id:Long):Option[T] = {
+    os.get[T](clazz, id).asInstanceOf[T] match {
+      case null => None
+      case x => Some(x)
+    }
   }
 
-  def retrieve[T](clazz:Class[T], id:String):T = {
-    os.find(clazz, id).asInstanceOf[T]
+//  def retrieve[T](clazz:Class[T], id:Array[Long]):Option[T] = {
+//    os.get(clazz, id).asInstanceOf[T] match {
+//      case null => None
+//      case x => Some(x)
+//    }
+//  }
+
+  def retrieve[T](clazz:Class[T], id:String):Option[T] = {
+    os.get[T](clazz, id).asInstanceOf[T] match {
+      case null => None
+      case x => Some(x)
+    }
   }
+
+//  def retrieve[T](clazz:Class[T], id:Array[String]):Option[T] = {
+//    os.get(clazz, id).asInstanceOf[T] match {
+//      case null => None
+//      case x => Some(x)
+//    }
+//  }
 
 //   def find[T](clazz:Class[T], id:Long):T = {
 //

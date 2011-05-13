@@ -1,4 +1,4 @@
-package com.ungersoft.videotagger.datastore
+package com.ungersoft.videotagger.services.datastore
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,4 +11,5 @@ package com.ungersoft.videotagger.datastore
 object DataService{
   val store:AbstractDataStore = new ObjectifyDataStore
   def apply() = store
+  def getInstance = apply
 }

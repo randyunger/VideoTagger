@@ -8,7 +8,6 @@ package com.ungersoft.videotagger
  * To change this template use File | Settings | File Templates.
  */
 
-import datastore.{AbstractDataStore, ObjectifyDataStore}
 import pojos.{Ad, Product}
 import javax.ws.rs._
 import com.sun.jersey.server.impl.model.parameter.multivalued.MultivaluedParameterExtractorFactory
