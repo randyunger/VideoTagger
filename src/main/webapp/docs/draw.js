@@ -18,6 +18,16 @@ $(document).ready(function(){
             return {x: event.clientX - tRect.left,
                 y: event.clientY - tRect.top};
         }
+
+        this.record = function(){
+            var s = "";
+            //todo hardcoded vdeo
+
+            for(var ix in myScene.objs){
+                myScene.objs[ix].record($("#video").get(0).currentTime);
+            }
+        };
+
         this.click = function(e){
 //            $("#video").get(0).pause();
             var coords = getRelCoords(e);
@@ -56,10 +66,15 @@ $(document).ready(function(){
                 }
             }
             finally{
+                try{
+                    myScene.record();    //use a timeout or not?
+                }catch(e){}
                 myScene.modified=false;
                 setTimeout(myScene.draw, 100);
+//                setTimeout(myScene.record, 102);
             }
         };
+
         this.remove = function(index){
             this.modified = true;   //todo not removing properly
             delete this.objs[index];
@@ -77,8 +92,8 @@ $(document).ready(function(){
             ,w:0
             ,h:0
             ,selected:false
+            ,recorded:new Array()
             ,draw:function(ctx){
-    //            debugger;
                 ctx.fillStyle = this.color; //"rgba(200,200,200,0.4)";
                 ctx.fillRect(this.x, this.y, this.w, this.h);
                 ctx.clearRect(this.x+this.borderWidth, this.y+this.borderWidth
@@ -93,34 +108,53 @@ $(document).ready(function(){
                 else return false;
             }
             ,click:function(coords){    //offset from xy
+                this.selected = !this.selected;
                 this.xHandle = coords.x - this.x;
                 this.yHandle = coords.y - this.y;
             }
+            ,record:function(timeKey){
+                if(timeKey>10) debugger;
+                if(!this.selected) return;
+                    $("#video").get(0).pause();
+                var n = //newdata(timeKey);
+                    {
+                         startTime:timeKey
+                        ,endTime:timeKey
+                        ,startPos:{x:this.x, y:this.y, height:this.h, width:this.w}
+                        ,endPos:{x:this.x, y:this.y, height:this.h, width:this.w}
+                        ,id:0
+                    };
+                if(this.recorded.length == 0) this.recorded[this.recorded.length]=n;
+                else if(JSON.stringify(n.startPos) == JSON.stringify(this.recorded[this.recorded.length-1].startPos)) {
+                    //update time for pre-existing
+                    this.recorded[this.recorded.length-1].endTime = n.endTime;
+                }
+                else {
+                    this.recorded[this.recorded.length]=n;
+                }
+                    $("#video").get(0).play();
+                return this.recorded;
+            }
+
         };
 
         $.extend(true, proto, obj);
         $.extend(true, this, proto);
-
-//        this.id = def.id;
-//        this.borderWidth = def.borderWidth;
-//        this.color = def.color;
-//        this.x = def.x;
-//        this.y = def.y;
-//        this.h = def.h;
-//        this.w = def.w;
-//        this.click = def.click;
-
-
     }
 
    // Your code here
-    var data = [{
-        startTime:3.5
-        , endTime:6
-        , startPos: {x:150, y:120, width:20, height:20}    //x,y,width,height
-        , endPos:  {x:150, y:120, width:20, height:20}
-        , id:0
-    }];
+//    var data = [{
+//        startTime:3.5
+//        , endTime:6
+//        , startPos: {x:150, y:120, width:20, height:20}    //x,y,width,height
+//        , endPos:  {x:150, y:120, width:20, height:20}
+//        , id:0
+//    }];
+
+    var data =
+            [{"startTime":2.6658549308776855,"endTime":2.765855073928833,"startPos":{"x":128,"y":51,"height":52,"width":55},"endPos":{"x":128,"y":51,"height":52,"width":55},"id":0},{"startTime":3.2381339073181152,"endTime":3.2381339073181152,"startPos":{"x":131,"y":51,"height":52,"width":55},"endPos":{"x":131,"y":51,"height":52,"width":55},"id":0},{"startTime":3.3381340503692627,"endTime":3.3381340503692627,"startPos":{"x":137,"y":51,"height":52,"width":55},"endPos":{"x":137,"y":51,"height":52,"width":55},"id":0},{"startTime":3.7764129638671875,"endTime":3.7764129638671875,"startPos":{"x":139,"y":52,"height":52,"width":55},"endPos":{"x":139,"y":52,"height":52,"width":55},"id":0},{"startTime":3.876413106918335,"endTime":4.289371967315674,"startPos":{"x":139,"y":54,"height":52,"width":55},"endPos":{"x":139,"y":54,"height":52,"width":55},"id":0},{"startTime":4.566112041473389,"endTime":4.566112041473389,"startPos":{"x":139,"y":53,"height":52,"width":55},"endPos":{"x":139,"y":53,"height":52,"width":55},"id":0},{"startTime":4.666111946105957,"endTime":4.666111946105957,"startPos":{"x":132,"y":50,"height":52,"width":55},"endPos":{"x":132,"y":50,"height":52,"width":55},"id":0},{"startTime":4.766111850738525,"endTime":4.766111850738525,"startPos":{"x":120,"y":49,"height":52,"width":55},"endPos":{"x":120,"y":49,"height":52,"width":55},"id":0},{"startTime":5.065071105957031,"endTime":5.065071105957031,"startPos":{"x":108,"y":49,"height":52,"width":55},"endPos":{"x":108,"y":49,"height":52,"width":55},"id":0},{"startTime":5.1650710105896,"endTime":5.1650710105896,"startPos":{"x":91,"y":62,"height":52,"width":55},"endPos":{"x":91,"y":62,"height":52,"width":55},"id":0},{"startTime":5.463029861450195,"endTime":5.463029861450195,"startPos":{"x":80,"y":75,"height":52,"width":55},"endPos":{"x":80,"y":75,"height":52,"width":55},"id":0},{"startTime":5.563029766082764,"endTime":5.563029766082764,"startPos":{"x":71,"y":91,"height":52,"width":55},"endPos":{"x":71,"y":91,"height":52,"width":55},"id":0},{"startTime":5.860989093780518,"endTime":5.860989093780518,"startPos":{"x":69,"y":103,"height":52,"width":55},"endPos":{"x":69,"y":103,"height":52,"width":55},"id":0},{"startTime":5.960988998413086,"endTime":5.960988998413086,"startPos":{"x":69,"y":107,"height":52,"width":55},"endPos":{"x":69,"y":107,"height":52,"width":55},"id":0},{"startTime":6.258947849273682,"endTime":6.258947849273682,"startPos":{"x":71,"y":109,"height":52,"width":55},"endPos":{"x":71,"y":109,"height":52,"width":55},"id":0},{"startTime":6.35994815826416,"endTime":6.35994815826416,"startPos":{"x":81,"y":110,"height":52,"width":55},"endPos":{"x":81,"y":110,"height":52,"width":55},"id":0},{"startTime":6.658906936645508,"endTime":6.658906936645508,"startPos":{"x":93,"y":110,"height":52,"width":55},"endPos":{"x":93,"y":110,"height":52,"width":55},"id":0},{"startTime":6.758906841278076,"endTime":6.758906841278076,"startPos":{"x":106,"y":110,"height":52,"width":55},"endPos":{"x":106,"y":110,"height":52,"width":55},"id":0},{"startTime":6.858907222747803,"endTime":6.858907222747803,"startPos":{"x":119,"y":110,"height":52,"width":55},"endPos":{"x":119,"y":110,"height":52,"width":55},"id":0},{"startTime":7.156684875488281,"endTime":7.156684875488281,"startPos":{"x":131,"y":106,"height":52,"width":55},"endPos":{"x":131,"y":106,"height":52,"width":55},"id":0},{"startTime":7.25668478012085,"endTime":7.25668478012085,"startPos":{"x":137,"y":100,"height":52,"width":55},"endPos":{"x":137,"y":100,"height":52,"width":55},"id":0},{"startTime":7.556826114654541,"endTime":7.556826114654541,"startPos":{"x":139,"y":85,"height":52,"width":55},"endPos":{"x":139,"y":85,"height":52,"width":55},"id":0},{"startTime":7.656826019287109,"endTime":7.656826019287109,"startPos":{"x":135,"y":69,"height":52,"width":55},"endPos":{"x":135,"y":69,"height":52,"width":55},"id":0},{"startTime":7.955603122711182,"endTime":7.955603122711182,"startPos":{"x":128,"y":54,"height":52,"width":55},"endPos":{"x":128,"y":54,"height":52,"width":55},"id":0},{"startTime":8.05560302734375,"endTime":8.05560302734375,"startPos":{"x":119,"y":48,"height":52,"width":55},"endPos":{"x":119,"y":48,"height":52,"width":55},"id":0},{"startTime":8.353562355041504,"endTime":8.353562355041504,"startPos":{"x":111,"y":47,"height":52,"width":55},"endPos":{"x":111,"y":47,"height":52,"width":55},"id":0},{"startTime":8.453561782836914,"endTime":8.453561782836914,"startPos":{"x":105,"y":49,"height":52,"width":55},"endPos":{"x":105,"y":49,"height":52,"width":55},"id":0},{"startTime":8.751521110534668,"endTime":8.751521110534668,"startPos":{"x":102,"y":57,"height":52,"width":55},"endPos":{"x":102,"y":57,"height":52,"width":55},"id":0},{"startTime":8.851520538330078,"endTime":8.851520538330078,"startPos":{"x":99,"y":67,"height":52,"width":55},"endPos":{"x":99,"y":67,"height":52,"width":55},"id":0},{"startTime":8.951520919799805,"endTime":8.951520919799805,"startPos":{"x":97,"y":78,"height":52,"width":55},"endPos":{"x":97,"y":78,"height":52,"width":55},"id":0},{"startTime":9.247481346130371,"endTime":9.247481346130371,"startPos":{"x":97,"y":88,"height":52,"width":55},"endPos":{"x":97,"y":88,"height":52,"width":55},"id":0},{"startTime":9.347480773925781,"endTime":9.347480773925781,"startPos":{"x":97,"y":95,"height":52,"width":55},"endPos":{"x":97,"y":95,"height":52,"width":55},"id":0},{"startTime":9.647439956665039,"endTime":9.647439956665039,"startPos":{"x":99,"y":99,"height":52,"width":55},"endPos":{"x":99,"y":99,"height":52,"width":55},"id":0},{"startTime":9.74843978881836,"endTime":9.74843978881836,"startPos":{"x":105,"y":99,"height":52,"width":55},"endPos":{"x":105,"y":99,"height":52,"width":55},"id":0}];
+
+
 
 //    var myScene = new Scene(ctx);
 //        var timeLine = new function(){
@@ -161,21 +195,12 @@ $(document).ready(function(){
         };
         this.doEvents = function(eventList){
             $("#video").get(0).pause();
-//                debugger;//comment
             for(var event in eventList){
                 var eventData = this.data[eventList[event].id];
 //                var canvas = document.getElementById("canvas");
 //                var ctx = canvas.getContext("2d");
                 var borderWidth = 2;
                 if(eventList[event].action=="START"){
-//                        var ctx = $("#video").get(0).getContext("2d");
-//                    ctx.fillStyle = "rgba(200,200,200,0.4)";
-//                    var newRect = new Rectangle(eventData.id,"rgba(200,200,200,0.4)", eventData.startPos.x,
-//                            eventData.startPos.y, eventData.startPos.width, eventData.startPos.height,
-//                            function(){
-//                                debugger;
-//                            });
-
                     var newRect = new Rectangle({
                          id:eventData.id
                         ,color:"rgba(100,100,100,0.8)"
@@ -202,7 +227,7 @@ $(document).ready(function(){
                 var eventList = timeLine.checkEvents(selector);
                 if(eventList.length>0) timeLine.doEvents(eventList);
                 timeLine.startPoll(selector);          //test comment//another
-            },1000)
+            },100)
         };
     };
 
@@ -228,46 +253,30 @@ $(document).ready(function(){
 
     canvas.onmouseup = function(event) {
         pressed = false;
-//        debugger;
 //        ctx.fillStyle = "rgba(200,200,200,0.4)";
 //        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
     };
 
-//    var hiLiteRect = new Rectangle("hiLite","rgba(200,200,200,0.4)", 0,0,0,0,
-//            function(){
-//                debugger;
-//            });
     var hiLiteRect = new Rectangle({
          id:"hiLite"
         ,color:"rgba(200,200,200,0.4)"
         ,mouseMove:function(coords){
             if(!this.xHandle || !this.yHandle) return;
             if(this.xHandle == coords.x && this.yHandle==coords.y) return;  //Have not moved
-                    $("#video").get(0).pause();
-//                debugger;
+//                    $("#video").get(0).pause();
             this.x = (coords.x - this.xHandle);
             this.y = (coords.y - this.yHandle);
-                    $("#video").get(0).play();
+//                    $("#video").get(0).play();
             myScene.modified=true;
         }
-//        ,click:function(){
-//            debugger;
-//        }
     });
 
     myScene.add(hiLiteRect);
-
-//    function debug(){
-//        $("#video").get(0).pause();
-//        debugger;
-//        $("#video").get(0).play();
-//    }
 
     canvas.onmousemove = function(event) {
         if(canvas.rMode=="select") myScene.mouseMove(event);
         else if(canvas.rMode=="draw"){
             if (!rect || !pressed || canvas.rMode!="draw") { return; }
-    //        debug();
             var tRect=event.target.getClientRects()[0];
             rect.width = event.clientX - tRect.left - rect.x;
             rect.height = event.clientY - tRect.top -rect.y;
@@ -276,7 +285,7 @@ $(document).ready(function(){
             hiLiteRect.y = rect.y;
             hiLiteRect.w = rect.width;
             hiLiteRect.h = rect.height;
-    //debugger;
+
             myScene.modified=true;
 
     //        myScene.add(hiLiteRect);
