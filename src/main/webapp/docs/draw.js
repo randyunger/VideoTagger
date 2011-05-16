@@ -19,8 +19,7 @@ $(document).ready(function(){
                 y: event.clientY - tRect.top};
         }
         this.click = function(e){
-            $("#video").get(0).pause();
-            debugger;
+//            $("#video").get(0).pause();
             var coords = getRelCoords(e);
 //            var len = myScene.objs.length;
 //            for(var i=0;i<len;i++){
@@ -30,7 +29,19 @@ $(document).ready(function(){
                     obj.click(coords);
                 }
             }
-            $("#video").get(0).play();
+//            $("#video").get(0).play();
+        };
+
+        this.mouseMove = function(e){
+//            $("#video").get(0).pause();
+            var coords = getRelCoords(e);
+            for(var ix in myScene.objs){
+                var obj = myScene.objs[ix]; //send movement to all objs, allow them to self select
+                if(obj && obj.mouseMove ){  //&& obj.containsPoint && obj.containsPoint(coords)){
+                    obj.mouseMove(coords);
+                }
+            }
+//            $("#video").get(0).play();
         };
 
         this.draw = function(){
@@ -50,36 +61,56 @@ $(document).ready(function(){
             }
         };
         this.remove = function(index){
-            this.modified = true;
+            this.modified = true;   //todo not removing properly
             delete this.objs[index];
         };
 //        this.draw();
     }
 
-    function Rectangle(id,color,x,y,w,h,click){
-        this.id = id;
-        this.borderWidth = 2;
-        this.color=color;
-        this.x=x;
-        this.y=y;
-        this.h=h;
-        this.w=w;
-        this.click = click;
-        this.draw=function(ctx){
-//            debugger;
-            ctx.fillStyle = this.color; //"rgba(200,200,200,0.4)";
-            ctx.fillRect(this.x, this.y, this.w, this.h);
-            ctx.clearRect(this.x+this.borderWidth, this.y+this.borderWidth
-                    , this.w-this.borderWidth*2, this.h-this.borderWidth*2);
+//    function Rectangle(id,color,x,y,w,h,click){
+    function Rectangle(obj){
+        var proto = {
+             borderWidth:2
+            ,color:"rgba(30,30,30,100)"
+            ,x:0
+            ,y:0
+            ,w:0
+            ,h:0
+            ,selected:false
+            ,draw:function(ctx){
+    //            debugger;
+                ctx.fillStyle = this.color; //"rgba(200,200,200,0.4)";
+                ctx.fillRect(this.x, this.y, this.w, this.h);
+                ctx.clearRect(this.x+this.borderWidth, this.y+this.borderWidth
+                        , this.w-this.borderWidth*2, this.h-this.borderWidth*2);
+            }
+            ,containsPoint:function(coords){
+                if(coords.x >= this.x &&
+                   coords.x <= this.x+this.w &&
+                   coords.y >= this.y &&
+                   coords.y <= this.y+this.h     )
+                    return true;
+                else return false;
+            }
+            ,click:function(coords){    //offset from xy
+                this.xHandle = coords.x - this.x;
+                this.yHandle = coords.y - this.y;
+            }
         };
-        this.containsPoint=function(coords){
-            if(coords.x >= this.x &&
-               coords.x <= this.x+this.w &&
-               coords.y >= this.y &&
-               coords.y <= this.y+this.h     )
-                return true;
-            else return false;
-        };
+
+        $.extend(true, proto, obj);
+        $.extend(true, this, proto);
+
+//        this.id = def.id;
+//        this.borderWidth = def.borderWidth;
+//        this.color = def.color;
+//        this.x = def.x;
+//        this.y = def.y;
+//        this.h = def.h;
+//        this.w = def.w;
+//        this.click = def.click;
+
+
     }
 
    // Your code here
@@ -139,12 +170,20 @@ $(document).ready(function(){
                 if(eventList[event].action=="START"){
 //                        var ctx = $("#video").get(0).getContext("2d");
 //                    ctx.fillStyle = "rgba(200,200,200,0.4)";
-                    var newRect = new Rectangle(eventData.id,"rgba(200,200,200,0.4)", eventData.startPos.x,
-                            eventData.startPos.y, eventData.startPos.width, eventData.startPos.height,
-                            function(){
-                                debugger;
-                            });
+//                    var newRect = new Rectangle(eventData.id,"rgba(200,200,200,0.4)", eventData.startPos.x,
+//                            eventData.startPos.y, eventData.startPos.width, eventData.startPos.height,
+//                            function(){
+//                                debugger;
+//                            });
 
+                    var newRect = new Rectangle({
+                         id:eventData.id
+                        ,color:"rgba(100,100,100,0.8)"
+                        ,x:eventData.startPos.x
+                        ,y:eventData.startPos.y
+                        ,w:eventData.startPos.width
+                        ,h:eventData.startPos.height
+                    });
                     eventData.id = myScene.add(newRect);
 
 //                    ctx.fillRect(eventData.startPos.x, eventData.startPos.y, eventData.startPos.width, eventData.startPos.height);
@@ -194,10 +233,28 @@ $(document).ready(function(){
 //        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
     };
 
-    var hiLiteRect = new Rectangle("hiLite","rgba(200,200,200,0.4)", 0,0,0,0,
-            function(){
-                debugger;
-            });
+//    var hiLiteRect = new Rectangle("hiLite","rgba(200,200,200,0.4)", 0,0,0,0,
+//            function(){
+//                debugger;
+//            });
+    var hiLiteRect = new Rectangle({
+         id:"hiLite"
+        ,color:"rgba(200,200,200,0.4)"
+        ,mouseMove:function(coords){
+            if(!this.xHandle || !this.yHandle) return;
+            if(this.xHandle == coords.x && this.yHandle==coords.y) return;  //Have not moved
+                    $("#video").get(0).pause();
+//                debugger;
+            this.x = (coords.x - this.xHandle);
+            this.y = (coords.y - this.yHandle);
+                    $("#video").get(0).play();
+            myScene.modified=true;
+        }
+//        ,click:function(){
+//            debugger;
+//        }
+    });
+
     myScene.add(hiLiteRect);
 
 //    function debug(){
@@ -207,22 +264,26 @@ $(document).ready(function(){
 //    }
 
     canvas.onmousemove = function(event) {
-        if (!rect || !pressed || canvas.rMode!="draw") { return; }
-//        debug();
-        var tRect=event.target.getClientRects()[0];
-        rect.width = event.clientX - tRect.left - rect.x;
-        rect.height = event.clientY - tRect.top -rect.y;
+        if(canvas.rMode=="select") myScene.mouseMove(event);
+        else if(canvas.rMode=="draw"){
+            if (!rect || !pressed || canvas.rMode!="draw") { return; }
+    //        debug();
+            var tRect=event.target.getClientRects()[0];
+            rect.width = event.clientX - tRect.left - rect.x;
+            rect.height = event.clientY - tRect.top -rect.y;
 
-        hiLiteRect.x = rect.x;
-        hiLiteRect.y = rect.y;
-        hiLiteRect.w = rect.width;
-        hiLiteRect.h = rect.height;
-//debugger;
+            hiLiteRect.x = rect.x;
+            hiLiteRect.y = rect.y;
+            hiLiteRect.w = rect.width;
+            hiLiteRect.h = rect.height;
+    //debugger;
             myScene.modified=true;
-//        myScene.add(hiLiteRect);
 
-//        ctx.fillStyle = "rgba(200,200,200,0.4)";
-//        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+    //        myScene.add(hiLiteRect);
+
+    //        ctx.fillStyle = "rgba(200,200,200,0.4)";
+    //        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+        }
     };
 
     canvas.onclick = function(event){
