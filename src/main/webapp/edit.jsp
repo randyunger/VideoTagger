@@ -4,6 +4,9 @@
 <%@ page import="com.google.appengine.api.users.User" %>
 <%@ page import="com.ungersoft.videotagger.pojos.Account" %>
 <%@ page import="com.ungersoft.videotagger.services.datastore.DataService" %>
+<%@ page import="javax.ws.rs.core.Response" %>
+<%@ page import="com.ungersoft.videotagger.pojos.Ad" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
@@ -12,7 +15,10 @@ User user = userService.getCurrentUser();
 
 String url = userService.createLoginURL(request.getRequestURI());
 String urlLinktext = "Login";
-//Account account = null;
+//Account account = new Account();
+//    account.getAccount(user.getEmail());
+Ad a = new Ad();  //todo: this sucks
+String adJ = a.getAds(user.getEmail());
 
 if (user != null){
 
@@ -25,6 +31,9 @@ if (user != null){
 
     url = userService.createLogoutURL(request.getRequestURI());
     urlLinktext = "Logout";
+
+//    account.getAccount(user.getEmail());
+//    account = null;
 //    account = (Account)DataService.apply().retrieve(Account.class, user.getUserId());
 }
 
@@ -33,6 +42,12 @@ if (user != null){
  <head>
     <title>Editor</title>
     <link rel="stylesheet" href="docs/styles.css" type="text/css">
+    <script type="text/javascript">
+        debugger;
+        var ads = JSON.parse(<%=adJ%>)
+        var a = 1+1
+        a+2
+    </script>
  </head>
  <body onload="drawInit()">
     <header class="header">
