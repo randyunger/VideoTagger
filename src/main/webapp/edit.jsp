@@ -7,6 +7,7 @@
 <%@ page import="javax.ws.rs.core.Response" %>
 <%@ page import="com.ungersoft.videotagger.pojos.Ad" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.ungersoft.videotagger.pojos.HiLitePosition" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
@@ -18,7 +19,10 @@ String urlLinktext = "Login";
 //Account account = new Account();
 //    account.getAccount(user.getEmail());
 Ad a = new Ad();  //todo: this sucks
+HiLitePosition p = new HiLitePosition();
+
 String adJ = a.getAds(user.getEmail());
+String posJ = p.get(user.getEmail());
 
 if (user != null){
 
@@ -43,10 +47,11 @@ if (user != null){
     <title>Editor</title>
     <link rel="stylesheet" href="docs/styles.css" type="text/css">
     <script type="text/javascript">
-        debugger;
-        var ads = JSON.parse(<%=adJ%>)
-        var a = 1+1
-        a+2
+//        debugger;
+        var ads = JSON.parse(<%=adJ%>);
+        var pos = JSON.parse(<%=posJ%>);
+//        var a = 1+1
+//        a+2
     </script>
  </head>
  <body onload="drawInit()">
@@ -71,11 +76,25 @@ if (user != null){
                 </div>
                 <div class="clear"></div>
                 <label>Select an Existing:<br/>
-                    <select name="id"><option value="0">Create New</option></select>
-                </label><br/>
-                <label>Label: <input type="text" name="label"/></label><br/>
-                <label>Title: <input type="text" name="title"/></label><br/>
-                <label>Copy:  <textarea rows=2 cols=20 name="copy"></textarea></label><br/>
+                    <select id="adSelect" name="id"><option value="0">Create New</option></select>
+                </label><label>Title: <input type="text" id="adTitle" name="title" style="width:200px"/></label><br/>
+                <br/>
+                <label>Label: <input type="text" id="adLabel" name="label"/></label><br/>
+                <label>Copy:  <textarea rows=2 cols=20 id="adCopy" name="copy"></textarea></label><br/>
+            </form>
+
+            <form>
+                <div>
+                    <h2 class="sectHead">Position</h2>
+                    <input class="saveButton" type="button" name="update" id="savePos" value="Save"/>
+                </div>
+                <%--<div class="clear"></div>--%>
+                <%--<label>Select an Existing:<br/>--%>
+                    <%--<select id="adSelect" name="id"><option value="0">Create New</option></select>--%>
+                <%--</label><label>Title: <input type="text" id="adTitle" name="title" style="width:200px"/></label><br/>--%>
+                <%--<br/>--%>
+                <%--<label>Label: <input type="text" id="adLabel" name="label"/></label><br/>--%>
+                <%--<label>Copy:  <textarea rows=2 cols=20 id="adCopy" name="copy"></textarea></label><br/>--%>
             </form>
         </div>
     </div>
