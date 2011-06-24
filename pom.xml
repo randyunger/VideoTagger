@@ -18,6 +18,10 @@
 
     <repositories>
         <repository>
+            <id>apache-public</id>
+            <url>repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
             <id>objectify-appengine</id>
             <url>http://objectify-appengine.googlecode.com/svn/maven</url>
         </repository>
@@ -55,6 +59,13 @@
 
 <dependencies>
 
+    <!--restricted from GAE because of reflection-->
+    <!--<dependency>-->
+        <!--<groupId>com.thoughtworks.xstream</groupId>-->
+        <!--<artifactId>xstream</artifactId>-->
+        <!--<version>1.3.1</version>-->
+    <!--</dependency>-->
+
     <dependency>
         <groupId>javax.persistence</groupId>
         <artifactId>persistence-api</artifactId>
@@ -91,6 +102,12 @@
         <artifactId>log4j</artifactId>
         <version>1.2.16</version>
         <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>net.liftweb</groupId>
+        <artifactId>lift-mapper_2.8.1</artifactId>
+        <version>2.3</version>
     </dependency>
 
 
