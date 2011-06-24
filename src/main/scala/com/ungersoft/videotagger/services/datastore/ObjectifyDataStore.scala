@@ -2,8 +2,8 @@ package com.ungersoft.videotagger.services.datastore
 
 import com.googlecode.objectify.util.DAOBase
 import org.apache.log4j.Logger
-import com.ungersoft.videotagger.pojos.{Account, Ad}
 import com.googlecode.objectify.{Key, NotFoundException, Objectify, ObjectifyService}
+import com.ungersoft.videotagger.pojos.{HiLitePosition, Account, Ad}
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +21,7 @@ class ObjectifyDataStore extends AbstractDataStore {
   val os:Objectify = ObjectifyService.begin();
   register(classOf[Ad])
   register(classOf[Account])
+  register(classOf[HiLitePosition])
 
   def register[T](clazz:Class[T]){
     os.getFactory.register(clazz)
