@@ -47,7 +47,6 @@ if (user != null){
     <title>Editor</title>
     <link rel="stylesheet" href="docs/styles.css" type="text/css">
     <script type="text/javascript">
-        debugger;
         var ads = JSON.parse(<%=adJ%>);
         var pos = JSON.parse(<%=posJ%>);
 //        var a = 1+1

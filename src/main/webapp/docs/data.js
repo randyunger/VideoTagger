@@ -64,18 +64,42 @@ function hookupButtons (){
         var opts = {
              type:"ad"
             ,value:$("#saveAd").closest("form").find(":input").serialize()
+            ,success:function(data){
+                debugger;
+                var newAds = JSON.parse(data);
+                var ad;
+                for(ad in newAds){
+                    ads[ad] = newAds[ad]
+                }
+                $("#adSelect").select(ad);
+            }
         };
         save(opts);
     });
 
     $("#savePos").click(function(){
-        debugger;
         var d = myScene.serialize();
         var opts = {
              type:"pos"
             ,value:"data="+d
+            ,success:function(data){
+                //save hiLite
+                debugger;
+                var resp = JSON.parse(data);
+                var adId = $("#adSelect").val();
+                var hiLitePositionId;
+                for(hiLitePositionId in resp){} //sets hiLitePositionId
+                var hiLiteOpts = {
+                     type:"hiLite"
+                    ,value:"adId="+adId+"&hiLitePositionId="+hiLitePositionId
+                };
+                save(hiLiteOpts);
+            }
         };
         save(opts);
+
+
+
     });
 
     $("#speed").change(function(){
@@ -89,6 +113,7 @@ function save (opts){
     var props = {
          type: "ad"
         ,value:"title='blank'"
+        ,error:function(resp){debugger;}
 //        ,value: {
 //             copy:  "A new ad. Buy now!"
 //            ,title: "Ad Title"
@@ -108,10 +133,10 @@ function save (opts){
         ,data: data
         ,dataType: "json"
         ,success:function(data){
-            debugger;
+            if(props.success) props.success(data)
         }
         ,error:function(data){
-            debugger;
+            if(props.error) props.error(data)
         }
     });
 

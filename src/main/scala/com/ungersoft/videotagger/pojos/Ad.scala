@@ -59,7 +59,9 @@ class Ad{
   @Produces(Array(MediaType.APPLICATION_JSON))
   def getAds( @QueryParam("id") accountId:String) = {
     val ads = DataService().query(classOf[Ad], accountId)
-
+    val json = toJson(ads)
+    json     //needs jxrs.ok?
+  }
 //    decompose(ads)
 //    JsonAST.render(ads)
 
@@ -90,6 +92,7 @@ class Ad{
 //    xstream.setMode(XStream.NO_REFERENCES)
 //    println("--"+xstream.toXML(product))
 
+  def toJson(ads:java.util.List[Ad]):String={
     var out:String = "\"{"
     val it = ads.iterator
     var i=0
@@ -149,7 +152,10 @@ class Ad{
 ////    account.ads :+ nAd //  .ads = nAd :: account.ads
 //    DataService().store(account)
 //    DataService().store(nAd)
-    return JAXRSUtil.ok(nAd)
+    val l = new java.util.LinkedList[Ad]()
+    l.add(nAd)
+    val j = toJson(l)
+    return JAXRSUtil.ok(j)
   }
 
 
