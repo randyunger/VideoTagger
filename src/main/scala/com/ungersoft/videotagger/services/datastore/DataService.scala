@@ -9,7 +9,7 @@ package com.ungersoft.videotagger.services.datastore
  */
 
 object DataService{
-  val store:AbstractDataStore = new ObjectifyDataStore
+  val store:AbstractDataStore = new ObjectifyDataStore       //todo:singleton
   def apply() = store
   def getInstance = apply
 }

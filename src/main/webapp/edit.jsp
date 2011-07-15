@@ -47,7 +47,7 @@ if (user != null){
     <title>Editor</title>
     <link rel="stylesheet" href="docs/styles.css" type="text/css">
     <script type="text/javascript">
-//        debugger;
+        debugger;
         var ads = JSON.parse(<%=adJ%>);
         var pos = JSON.parse(<%=posJ%>);
 //        var a = 1+1
@@ -57,7 +57,7 @@ if (user != null){
  <body onload="drawInit()">
     <header class="header">
         <div>MyApp</div>
-        <div class="topContent">Please use this app</div>
+        <div class="topContent">Please use this appp</div>
         <div class="logInOut">
             <span id="email"><%=user.getEmail()%></span><br/>
             <a href="<%=url%>"><%=urlLinktext%></a>
@@ -65,9 +65,13 @@ if (user != null){
     </header>
     <div class="main">
         <div class="canvas">
-            <video id="video" src="bbb.m4v" width="300" height="300" autoplay></video>
-            <canvas id="canvas" width="300" height="300"></canvas>
+            <video id="video" src="Ferrell-1.m4v" width="500" height="500" autoplay></video>
+            <canvas id="canvas" width="600" height="600"></canvas>
         </div>
+        <div class="slider">
+            <input name="speed" type="range" id="speed" min="0" max="200" step="4" value="100">
+        </div>
+        <%--<input name="r" type="range" min="1" max="11" value="9">--%>
         <div class="adInput">
             <form>
                 <div>
@@ -96,10 +100,16 @@ if (user != null){
                 <%--<label>Label: <input type="text" id="adLabel" name="label"/></label><br/>--%>
                 <%--<label>Copy:  <textarea rows=2 cols=20 id="adCopy" name="copy"></textarea></label><br/>--%>
             </form>
+
+
         </div>
     </div>
+
     <script type="text/javascript" src="docs/jquery.js"></script>
-    <script type="text/javascript" src="docs/draw.js"></script>
+
     <script type="text/javascript" src="docs/data.js"></script>
+
+    <script type="text/javascript" src="docs/draw.js"></script>
+
  </body>
 </html>

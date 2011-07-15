@@ -76,6 +76,15 @@ class ObjectifyDataStore extends AbstractDataStore {
     }
   }
 
+//  def delete[T](clazz:Class[T], id:String){
+//    os.delete(clazz, id)
+//  }
+
+  def delete[T](clazz:java.lang.Class[T], id:Long){
+    val k = new Key(clazz, id)
+    os.delete(k)
+  }
+
 //  def retrieve[T](clazz:Class[T], id:Array[String]):Option[T] = {
 //    os.get(clazz, id).asInstanceOf[T] match {
 //      case null => None

@@ -10,6 +10,7 @@ $(document).ready(function(){
     var email = $("#email").text();
     if(email) loadInitData(email);
     hookupButtons();
+    doDraw();
 });
 
 function loadInitData(email){
@@ -45,6 +46,16 @@ function loadInitData(email){
             $("#adCopy").val(ads[ix].copy);
         }
     });
+
+    var posData = null;
+    try{
+        posData = JSON.parse(JSON.parse(pos).data);
+    }catch(e){}
+
+//    if(pos){
+//        posData = pos;
+//    }
+
 }
 
 //var  =
@@ -58,11 +69,17 @@ function hookupButtons (){
     });
 
     $("#savePos").click(function(){
+        debugger;
+        var d = myScene.serialize();
         var opts = {
              type:"pos"
-            ,value:"id=1&data=someTestData"
+            ,value:"data="+d
         };
         save(opts);
+    });
+
+    $("#speed").change(function(){
+        $("#video")[0].playbackRate = $("#speed").val() / 100;
     });
 
 }

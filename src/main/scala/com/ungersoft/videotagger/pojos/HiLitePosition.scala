@@ -47,26 +47,39 @@ class HiLitePosition{
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
   def get( @QueryParam("id") accountId:String) = {
-    val all = DataService().query(classOf[HiLitePosition], accountId)
+    val hiLite = DataService().query(classOf[HiLitePosition], accountId)
+    val json = toJson(hiLite)
+    json
+  }
 
+  def toJson(all:java.util.List[HiLitePosition]):String={
     var out:String = "\"{"
     val it = all.iterator
     var i=0
-    while(it.hasNext){
+//    while(it.hasNext){
       i+=1
-      val current = it.next
-      if(i>1) out+=","
-      out+="\\\""+current.id + "\\\":{" +
-        "\\\"data\\\":\\\""+current.data +
-//        "\\\"startTime\\\":\\\""+current.startTime +
-//        "\\\",\\\"endTime\\\":\\\""+current.endTime +
-//        "\\\",\\\"startX\\\":\\\""+current.startX +
-//        "\\\",\\\"startY\\\":\\\""+current.startY +
-//        "\\\",\\\"startW\\\":\\\""+current.startW +
-//        "\\\",\\\"startH\\\":\\\""+current.startH +
-//           "\\\",\\\"product\\\":\\\""+ad.product +
-           "\\\"}"
-    }
+//      var current = it.next
+
+      var current = all.get(all.size-1) //just get last
+
+      if(current.data!=null && current.data!="undefined" && current.data!="someTestData"){
+        if(i>1) out+=","
+        out+="\\\""+current.id + "\\\":{" +
+          "\\\"data\\\":\\\""+current.data.replace("\"","\\\\\\\"") +
+  //        "\\\"startTime\\\":\\\""+current.startTime +
+  //        "\\\",\\\"endTime\\\":\\\""+current.endTime +
+  //        "\\\",\\\"startX\\\":\\\""+current.startX +
+  //        "\\\",\\\"startY\\\":\\\""+current.startY +
+  //        "\\\",\\\"startW\\\":\\\""+current.startW +
+  //        "\\\",\\\"startH\\\":\\\""+current.startH +
+  //           "\\\",\\\"product\\\":\\\""+ad.product +
+             "\\\"}"
+      }
+      else{
+        val l:Long = current.id.longValue
+        DataService().delete(classOf[HiLitePosition], l)
+      }
+//    }
     out+="}\""
     out
   }
@@ -85,7 +98,9 @@ class HiLitePosition{
 
     val nPos = new HiLitePosition(id, data, account)
     DataService().store(nPos)
-    return JAXRSUtil.ok(nPos)
+    val lst = new java.util.ArrayList[HiLitePosition]
+    lst.add(nPos)
+    return JAXRSUtil.ok(toJson(lst))
   }
 
 }
