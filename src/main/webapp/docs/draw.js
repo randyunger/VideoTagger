@@ -31,6 +31,7 @@ function doDraw(){
         };
 
         this.click = function(e){
+            debugger;
 //            $("#video").get(0).pause();
             var coords = getRelCoords(e);
 //            var len = myScene.objs.length;
@@ -58,18 +59,24 @@ function doDraw(){
 
         this.draw = function(){
             try{
+//$("#video").get(0).pause();
                 if(myScene && myScene.modified){
                     myScene.context.clearRect(0,0,myScene.context.canvas.height, myScene.context.canvas.width);
-                    for(var i=0;i<myScene.objs.length;i++){
+                    for(i in myScene.objs){
+//debugger;
                         if(myScene.objs[i] && myScene.objs[i].draw){
                             myScene.objs[i].draw(myScene.context);
+//                            myScene.objs.length--;             //todo: is this right?
+                            delete myScene.objs[i];
                         }
+                        else debugger
                     }
                 }
             }
             finally{
                 try{
                     myScene.record();    //use a timeout or not?
+//$("#video").get(0).play();
                 }catch(e){}
                 myScene.modified=false;
                 setTimeout(myScene.draw, 100);
@@ -137,7 +144,7 @@ function doDraw(){
                 }
 
                 var timeKey = numDecimals(time, 2);
-//                if(timeKey>10) debugger;
+//                if(timeKey>10)
                 if(!this.selected) return;
 //                    $("#video").get(0).pause();
                 var n = //newdata(timeKey);
@@ -166,7 +173,6 @@ function doDraw(){
                 return this.recorded;
             }
             ,serialize:function(){
-//                debugger;
                 return JSON.stringify(this.recorded);
             }
 
@@ -201,15 +207,15 @@ function doDraw(){
         this.events = new function(){
             this.eventList = new Array();
             this.put = function(time, id, action){
+                if(this.eventList[time+"/"+id]) {
+                    time=parseFloat(time+"01"); //to prevent collisions
+                }
                 this.eventList[time+"/"+id] = {time:time, id:id, action:action};
 //                    if(this.eventList[key] == null) this.eventList[key] = new Array();
 //                    this.eventList[key][this.eventList[key].length] = {key:key, id:id, action:action};
             };
             this.get = function(time){
-
 //                    $("#video").get(0).pause();
-
-//                debugger;
                 var list = new Array();
                 for(var storedTime in this.eventList){
                     if(time >= storedTime.substr(0,storedTime.indexOf("/"))){
@@ -217,7 +223,6 @@ function doDraw(){
                         delete this.eventList[storedTime];
                     }
                 }
-
 //                    $("#video").get(0).play();
                 return list;
             };
@@ -233,9 +238,9 @@ function doDraw(){
             return this.events.get($(selector).get(0).currentTime)
 
         };
-        this.doEvents = function(eventList){
+        this.doEvents = function(eventList){     //todo:adding object with id 0 each time!
+            debugger;
 //            $("#video").get(0).pause();
-//            debugger;
             for(var event in eventList){
                 var eventData = this.data[eventList[event].id];
 //                var canvas = document.getElementById("canvas");
@@ -272,14 +277,31 @@ function doDraw(){
         };
     };
 
-//    $("#video").get(0).pause();
-//    debugger;
-    try{
-        timeLine.register(data);
-    }catch(e){}
 
-    timeLine.startPoll("#video");
-//    $("#video").get(0).play();
+
+    if(!viewing) startVideo();  //don't start on load unless editing
+    else{
+        $("#play").click(function(){
+            startVideo();
+        });
+    }
+
+    function startVideo(){
+    //    $("#video").get(0).pause();
+        try{
+            if(viewing) {
+                var oneHiLite, oneAdId, onePosId;
+                for(oneHiLite in hiLites){}
+                oneAdId = hiLites[oneHiLite].adId;
+                onePosId = hiLites[oneHiLite].hiLitePositionId;
+                var posData = JSON.parse(pos[onePosId].data);
+                timeLine.register(posData);
+            }
+        }catch(e){}
+
+        timeLine.startPoll("#video");
+        $("#video").get(0).play();
+    }
 
 //    var
             canvas = document.getElementById("canvas");
@@ -304,7 +326,7 @@ function doDraw(){
 //        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
     };
 
-    var hiLiteRect = new Rectangle({
+    var hiLiteRect = new Rectangle({    //Only for creating new hiLites
          id:"hiLite"
         ,color:"rgba(200,200,200,0.4)"
         ,mouseMove:function(coords){
@@ -332,7 +354,6 @@ function doDraw(){
             hiLiteRect.y = rect.y;
             hiLiteRect.w = rect.width;
             hiLiteRect.h = rect.height;
-
             myScene.modified=true;
 
     //        myScene.add(hiLiteRect);
@@ -343,7 +364,6 @@ function doDraw(){
     };
 
     canvas.onclick = function(event){
-//debugger;
         if(canvas.rMode=="draw") canvas.rMode="select";
 
 

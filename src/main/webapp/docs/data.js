@@ -47,10 +47,10 @@ function loadInitData(email){
         }
     });
 
-    var posData = null;
-    try{
-        posData = JSON.parse(JSON.parse(pos).data);
-    }catch(e){}
+//    var posData = null;
+//    try{
+//        posData = JSON.parse(JSON.parse(pos).data);
+//    }catch(e){}
 
 //    if(pos){
 //        posData = pos;
@@ -60,6 +60,7 @@ function loadInitData(email){
 
 //var  =
 function hookupButtons (){
+
     $("#saveAd").click(function(){
         var opts = {
              type:"ad"
