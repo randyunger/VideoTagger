@@ -83,6 +83,10 @@ if (user != null){
         <div>
             <input type="button" id="play" value="Play"/>
         </div>
+        <div class="adOut">
+            <div class="title"></div>
+            <div class="copy"></div>
+        </div>
         <%--<div class="slider">--%>
             <%--<input name="speed" type="range" id="speed" min="0" max="200" step="4" value="100">--%>
         <%--</div>--%>

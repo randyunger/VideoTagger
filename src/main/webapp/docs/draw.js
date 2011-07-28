@@ -1,101 +1,103 @@
 //$(document).ready(function(){
 var myScene, canvas, ctx;
-function doDraw(){
+function doDraw() {
 //    var myScene, canvas, ctx;
 
-    function Scene(ctx){
+    function Scene(ctx) {
         this.modified = false;
-        this.context=ctx;
+        this.context = ctx;
         this.objs = new Array();
-        this.add = function(obj){
+        this.add = function(obj) {
             this.modified = true;
             var index;
-            if(obj.id) index = obj.id;
+            if (obj.id) index = obj.id;
             index = this.objs.length;
-            this.objs[index]=obj;
+            this.objs[index] = obj;
             return index;
         };
-        function getRelCoords(e){
-            var tRect=event.target.getClientRects()[0];
+        function getRelCoords(e) {
+            var tRect = event.target.getClientRects()[0];
             return {x: event.clientX - tRect.left,
                 y: event.clientY - tRect.top};
         }
 
-        this.record = function(){
+        this.record = function() {
             var s = "";
             //todo un-hardcoded vdeo
 
-            for(var ix in myScene.objs){
+            for (var ix in myScene.objs) {
                 myScene.objs[ix].record($("#video").get(0).currentTime);
             }
         };
 
-        this.click = function(e){
-            debugger;
+        this.click = function(e) {
+//            debugger;
 //            $("#video").get(0).pause();
             var coords = getRelCoords(e);
 //            var len = myScene.objs.length;
 //            for(var i=0;i<len;i++){
-            for(var ix in myScene.objs){
+            for (var ix in myScene.objs) {
+//                debugger;
                 var obj = myScene.objs[ix];
-                if(obj && obj.click && obj.containsPoint && obj.containsPoint(coords)){
+                if (obj && obj.click && obj.containsPoint && obj.containsPoint(coords)) {
                     obj.click(coords);
                 }
             }
 //            $("#video").get(0).play();
         };
 
-        this.mouseMove = function(e){
+        this.mouseMove = function(e) {
 //            $("#video").get(0).pause();
             var coords = getRelCoords(e);
-            for(var ix in myScene.objs){
+            for (var ix in myScene.objs) {
                 var obj = myScene.objs[ix]; //send movement to all objs, allow them to self select
-                if(obj && obj.mouseMove ){  //&& obj.containsPoint && obj.containsPoint(coords)){
+                if (obj && obj.mouseMove) {  //&& obj.containsPoint && obj.containsPoint(coords)){
                     obj.mouseMove(coords);
                 }
             }
 //            $("#video").get(0).play();
         };
 
-        this.draw = function(){
-            try{
+        this.draw = function() {
+            try {
 //$("#video").get(0).pause();
-                if(myScene && myScene.modified){
-                    myScene.context.clearRect(0,0,myScene.context.canvas.height, myScene.context.canvas.width);
-                    for(i in myScene.objs){
+                if (myScene && myScene.modified) {
+                    myScene.context.clearRect(0, 0, myScene.context.canvas.height, myScene.context.canvas.width);
+                    for (i in myScene.objs) {
 //debugger;
-                        if(myScene.objs[i] && myScene.objs[i].draw){
+                        if (myScene.objs[i] && myScene.objs[i].draw) {
                             myScene.objs[i].draw(myScene.context);
 //                            myScene.objs.length--;             //todo: is this right?
-                            delete myScene.objs[i];
+//                            delete myScene.objs[i]; //deletes selecting hiLite?
                         }
                         else debugger
                     }
                 }
             }
-            finally{
-                try{
+            finally {
+                try {
                     myScene.record();    //use a timeout or not?
 //$("#video").get(0).play();
-                }catch(e){}
-                myScene.modified=false;
+                } catch(e) {
+                }
+                myScene.modified = false;
                 setTimeout(myScene.draw, 100);
 //                setTimeout(myScene.record, 102);
             }
         };
 
-        this.remove = function(index){
+        this.remove = function(index) {
             this.modified = true;   //todo not removing properly
             delete this.objs[index];
         };
 
-        this.serialize = function(){
+        this.serialize = function() {
             //only works for one obj for now!, need to concat cleanly
-            var total="";
-            for(var ix in myScene.objs){
+            var total = "";
+            for (var ix in myScene.objs) {
                 var obj = myScene.objs[ix];
-                if(obj && obj.serialize ){
-                    total=total+obj.serialize();
+                if (obj && obj.serialize) {
+                    total = total + obj.serialize();
                 }
             }
             return total;
@@ -103,11 +105,11 @@ function doDraw(){
 //        this.draw();
     }
 
-    var anIndex=0;
+    var anIndex = 0;
 //    function Rectangle(id,color,x,y,w,h,click){
-    function Rectangle(obj){
+    function Rectangle(obj) {
         var proto = {
-             borderWidth:2
+            borderWidth:2
             ,color:"rgba(30,30,30,100)"
             ,x:0
             ,y:0
@@ -115,64 +117,68 @@ function doDraw(){
             ,h:0
             ,selected:false
             ,recorded:new Array()
-            ,draw:function(ctx){
+            ,draw:function(ctx) {
                 ctx.fillStyle = this.color; //"rgba(200,200,200,0.4)";
                 ctx.fillRect(this.x, this.y, this.w, this.h);
-                ctx.clearRect(this.x+this.borderWidth, this.y+this.borderWidth
-                        , this.w-this.borderWidth*2, this.h-this.borderWidth*2);
+                ctx.clearRect(this.x + this.borderWidth, this.y + this.borderWidth
+                        , this.w - this.borderWidth * 2, this.h - this.borderWidth * 2);
             }
-            ,containsPoint:function(coords){
-                if(coords.x >= this.x &&
-                   coords.x <= this.x+this.w &&
-                   coords.y >= this.y &&
-                   coords.y <= this.y+this.h     )
+            ,containsPoint:function(coords) {
+                if (coords.x >= this.x &&
+                        coords.x <= this.x + this.w &&
+                        coords.y >= this.y &&
+                        coords.y <= this.y + this.h)
                     return true;
                 else return false;
             }
-            ,click:function(coords){    //offset from xy
+            ,click:function(coords) {    //offset from xy
+//                debugger;
                 this.selected = !this.selected;
                 this.xHandle = coords.x - this.x;
                 this.yHandle = coords.y - this.y;
             }
-            ,record:function(time){
+            ,record:function(time) {
                 function numDecimals(num, places) {
-                    var factor = Math.pow(10,places);
-                    num=num*factor;
+                    var factor = Math.pow(10, places);
+                    num = num * factor;
                     num = Math.round(num);
-                    num=num/factor;
+                    num = num / factor;
                     return num;
                 }
 
                 var timeKey = numDecimals(time, 2);
 //                if(timeKey>10)
-                if(!this.selected) return;
+                if (!this.selected) return;
 //                    $("#video").get(0).pause();
                 var n = //newdata(timeKey);
-                    {
-                         startTime:timeKey
-                        ,endTime:timeKey
-                        ,startPos:{x:this.x, y:this.y, height:this.h, width:this.w}
-                        ,endPos:{x:this.x, y:this.y, height:this.h, width:this.w}
-                        ,id:0   //anIndex++
-                    };
-                var doAdd=false;
-                if(this.recorded.length == 0) doAdd=true;//this.recorded[this.recorded.length]=n;
-                else if(JSON.stringify(n.startPos) == JSON.stringify(this.recorded[this.recorded.length-1].startPos)) {
+                {
+                    startTime:timeKey
+                    ,endTime:timeKey
+                    ,startPos:{x:this.x, y:this.y, height:this.h, width:this.w}
+                    ,endPos:{x:this.x, y:this.y, height:this.h, width:this.w}
+                    ,id:-1   //should be id of currently selected Ad
+                };
+                //next, set :id to id of current ad
+                debugger;
+
+                var doAdd = false;
+                if (this.recorded.length == 0) doAdd = true;//this.recorded[this.recorded.length]=n;
+                else if (JSON.stringify(n.startPos) == JSON.stringify(this.recorded[this.recorded.length - 1].startPos)) {
                     //update time for pre-existing
-                    this.recorded[this.recorded.length-1].endTime = n.endTime;
+                    this.recorded[this.recorded.length - 1].endTime = n.endTime;
                 }
                 else {
                     //this.recorded[this.recorded.length]=n;
-                    doAdd=true;
+                    doAdd = true;
                 }
-                if(doAdd){  //todo dangerous to modify other?
-                    if(this.recorded.length>0) this.recorded[this.recorded.length-1].endTime = n.startTime;
-                    this.recorded[this.recorded.length]=n;
+                if (doAdd) {  //todo dangerous to modify other?
+                    if (this.recorded.length > 0) this.recorded[this.recorded.length - 1].endTime = n.startTime;
+                    this.recorded[this.recorded.length] = n;
                 }
 //                    $("#video").get(0).play();
                 return this.recorded;
             }
-            ,serialize:function(){
+            ,serialize:function() {
                 return JSON.stringify(this.recorded);
             }
 
@@ -182,7 +188,7 @@ function doDraw(){
         $.extend(true, this, proto);
     }
 
-   // Your code here
+    // Your code here
 //    var data = [{
 //        startTime:3.5
 //        , endTime:6
@@ -202,24 +208,30 @@ function doDraw(){
 //    }
 //    var myScene = new Scene(ctx);
 //        var timeLine = new function(){
-    var timeLine = new function(){
-        this.data=null;
-        this.events = new function(){
+
+    /*
+    Timeline deals with all events that are scheduled to happen at a future time
+
+     */
+
+    var timeLine = new function() {
+        this.data = null;
+        this.events = new function() {
             this.eventList = new Array();
-            this.put = function(time, id, action){
-                if(this.eventList[time+"/"+id]) {
-                    time=parseFloat(time+"01"); //to prevent collisions
+            this.put = function(time, id, action) {
+                if (this.eventList[time + "/" + id]) {
+                    time = parseFloat(time + "01"); //to prevent collisions
                 }
-                this.eventList[time+"/"+id] = {time:time, id:id, action:action};
+                this.eventList[time + "/" + id] = {time:time, id:id, action:action};
 //                    if(this.eventList[key] == null) this.eventList[key] = new Array();
 //                    this.eventList[key][this.eventList[key].length] = {key:key, id:id, action:action};
             };
-            this.get = function(time){
+            this.get = function(time) {
 //                    $("#video").get(0).pause();
                 var list = new Array();
-                for(var storedTime in this.eventList){
-                    if(time >= storedTime.substr(0,storedTime.indexOf("/"))){
-                        list[list.length]=this.eventList[storedTime];
+                for (var storedTime in this.eventList) {
+                    if (time >= storedTime.substr(0, storedTime.indexOf("/"))) {
+                        list[list.length] = this.eventList[storedTime];
                         delete this.eventList[storedTime];
                     }
                 }
@@ -227,96 +239,101 @@ function doDraw(){
                 return list;
             };
         };
-        this.register = function(input){
-           this.data = input;
-           for(var item in input){
-               this.events.put(input[item].startTime, input[item].id, "START");
-               this.events.put(input[item].endTime, input[item].id, "END");
-           }
+        this.register = function(input) {
+debugger;
+            this.data = input;
+            for (var item in input) {
+                this.events.put(input[item].startTime, input[item].id, "START");
+                this.events.put(input[item].endTime, input[item].id, "END");
+            }
         };
-        this.checkEvents = function(selector){
+        this.checkEvents = function(selector) {
             return this.events.get($(selector).get(0).currentTime)
 
         };
-        this.doEvents = function(eventList){     //todo:adding object with id 0 each time!
-            debugger;
+        this.doEvents = function(eventList) {     //todo:adding object with id 0 each time!
+
 //            $("#video").get(0).pause();
-            for(var event in eventList){
-                var eventData = this.data[eventList[event].id];
-//                var canvas = document.getElementById("canvas");
-//                var ctx = canvas.getContext("2d");
-//                var borderWidth = 2;
-                if(eventList[event].action=="START"){
+            var i = -1;
+            for (var event in eventList) {
+                i++;
+                var mostRecentEvent = eventList[i];
+                var eventData = this.data[i];
+//                debugger;
+//                var eventData = this.data[eventList[event].id];   //todo: i think this is the line that is wrong
+                if (eventList[event].action == "START") {
                     var newRect = new Rectangle({
-                         id:eventData.id
+                        id:eventData.id
                         ,color:"rgba(100,100,100,0.8)"
                         ,x:eventData.startPos.x
                         ,y:eventData.startPos.y
                         ,w:eventData.startPos.width
                         ,h:eventData.startPos.height
                     });
-                    eventData.id = myScene.add(newRect);
+//                    eventData.id = myScene.add(newRect); //todo: is this also wrong?
+                    mostRecentEvent.id = myScene.add(newRect);
 
 //                    ctx.fillRect(eventData.startPos.x, eventData.startPos.y, eventData.startPos.width, eventData.startPos.height);
 //                    ctx.clearRect(eventData.startPos.x+borderWidth, eventData.startPos.y+borderWidth
 //                            , eventData.startPos.width-borderWidth*2, eventData.startPos.height-borderWidth*2);
                 }
-                else if(eventList[event].action=="END"){ //Should clear canvas and redraw
+                else if (eventList[event].action == "END") { //Should clear canvas and redraw
                     myScene.remove(eventData.id);
 //                    ctx.clearRect(eventData.endPos.x, eventData.endPos.y, eventData.endPos.width, eventData.endPos.height);
                 }
 //                $("#video").get(0).play();  //only needed for debugging
             }
         };
-        this.startPoll = function(selector){
-            window.setTimeout(function(){
+        this.startPoll = function(selector) {
+            window.setTimeout(function() {
                 var eventList = timeLine.checkEvents(selector);
-                if(eventList.length>0) timeLine.doEvents(eventList);
+                if (eventList.length > 0) timeLine.doEvents(eventList);
                 timeLine.startPoll(selector);          //test comment//another
-            },100)
+            }, 100)
         };
     };
 
-
-
-    if(!viewing) startVideo();  //don't start on load unless editing
-    else{
-        $("#play").click(function(){
+    if (viewing) {
+        $("#play").click(function() {
             startVideo();
         });
+    } else {
+        startVideo();  //don't start on load unless editing
     }
 
-    function startVideo(){
-    //    $("#video").get(0).pause();
-        try{
-            if(viewing) {
+    function startVideo() {
+        //    $("#video").get(0).pause();
+        try {
+            if (viewing) {
                 var oneHiLite, oneAdId, onePosId;
-                for(oneHiLite in hiLites){}
+                for (oneHiLite in hiLites) {
+                }
                 oneAdId = hiLites[oneHiLite].adId;
                 onePosId = hiLites[oneHiLite].hiLitePositionId;
                 var posData = JSON.parse(pos[onePosId].data);
                 timeLine.register(posData);
             }
-        }catch(e){}
+        } catch(e) {
+        }
 
         timeLine.startPoll("#video");
         $("#video").get(0).play();
     }
 
 //    var
-            canvas = document.getElementById("canvas");
+    canvas = document.getElementById("canvas");
 //    var
-            ctx = canvas.getContext("2d");
+    ctx = canvas.getContext("2d");
     myScene = new Scene(ctx);
     myScene.draw();
 
     canvas.rMode = "draw";
     var rect, pressed;
     canvas.onmousedown = function(event) {
-        var tRect=event.target.getClientRects()[0];
+        var tRect = event.target.getClientRects()[0];
         rect = {x: event.clientX - tRect.left,
-                y: event.clientY - tRect.top,
-                width: 1, height: 1};
+            y: event.clientY - tRect.top,
+            width: 1, height: 1};
         pressed = true;
     };
 
@@ -327,44 +344,46 @@ function doDraw(){
     };
 
     var hiLiteRect = new Rectangle({    //Only for creating new hiLites
-         id:"hiLite"
+        id:"hiLite"
         ,color:"rgba(200,200,200,0.4)"
-        ,mouseMove:function(coords){
-            if(!this.xHandle || !this.yHandle) return;
-            if(this.xHandle == coords.x && this.yHandle==coords.y) return;  //Have not moved
+        ,mouseMove:function(coords) {
+            if (!this.xHandle || !this.yHandle) return;
+            if (this.xHandle == coords.x && this.yHandle == coords.y) return;  //Have not moved
 //                    $("#video").get(0).pause();
             this.x = (coords.x - this.xHandle);
             this.y = (coords.y - this.yHandle);
 //                    $("#video").get(0).play();
-            myScene.modified=true;
+            myScene.modified = true;
         }
     });
 
     myScene.add(hiLiteRect);
 
     canvas.onmousemove = function(event) {
-        if(canvas.rMode=="select") myScene.mouseMove(event);
-        else if(canvas.rMode=="draw"){
-            if (!rect || !pressed || canvas.rMode!="draw") { return; }
-            var tRect=event.target.getClientRects()[0];
+        if (canvas.rMode == "select") myScene.mouseMove(event);
+        else if (canvas.rMode == "draw") {
+            if (!rect || !pressed || canvas.rMode != "draw") {
+                return;
+            }
+            var tRect = event.target.getClientRects()[0];
             rect.width = event.clientX - tRect.left - rect.x;
-            rect.height = event.clientY - tRect.top -rect.y;
+            rect.height = event.clientY - tRect.top - rect.y;
 
             hiLiteRect.x = rect.x;
             hiLiteRect.y = rect.y;
             hiLiteRect.w = rect.width;
             hiLiteRect.h = rect.height;
-            myScene.modified=true;
+            myScene.modified = true;
 
-    //        myScene.add(hiLiteRect);
+            //        myScene.add(hiLiteRect);
 
-    //        ctx.fillStyle = "rgba(200,200,200,0.4)";
-    //        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+            //        ctx.fillStyle = "rgba(200,200,200,0.4)";
+            //        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
         }
     };
 
-    canvas.onclick = function(event){
-        if(canvas.rMode=="draw") canvas.rMode="select";
+    canvas.onclick = function(event) {
+        if (canvas.rMode == "draw") canvas.rMode = "select";
 
 
 //        @todo
