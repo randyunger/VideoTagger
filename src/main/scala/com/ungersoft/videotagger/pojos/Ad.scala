@@ -39,6 +39,7 @@ class Ad{
   var title:String = _
   var label:String = _
   var copy:String = _
+//  var imageURL:String = _
 //  var product:Product = _
 
 //  @Embedded var account:Account = _
@@ -58,9 +59,13 @@ class Ad{
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
   def getAds( @QueryParam("id") accountId:String) = {
-    val ads = DataService().query(classOf[Ad], accountId)
-    val json = toJson(ads)
-    json     //needs jxrs.ok?
+    DataService().query(classOf[Ad], accountId) match{
+      case None => ""
+      case Some(x) => toJson(x)
+    }
+//    val ads = DataService().query(classOf[Ad], accountId)
+//    val json = toJson(ads)
+//    json     //needs jxrs.ok?
   }
 //    decompose(ads)
 //    JsonAST.render(ads)

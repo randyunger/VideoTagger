@@ -65,7 +65,7 @@ if (user != null){
     </header>
     <div class="main">
         <div class="canvas">
-            <video id="video" src="Ferrell-1.m4v" width="500" height="500" autoplay></video>
+            <video id="video" src="Ferrell-Small.m4v" width="500" height="500" autoplay></video>
             <canvas id="canvas" width="600" height="600"></canvas>
         </div>
         <div class="slider">

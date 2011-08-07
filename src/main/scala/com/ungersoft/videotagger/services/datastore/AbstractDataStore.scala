@@ -22,7 +22,7 @@ trait AbstractDataStore{
 //  def retrieve[T](clazz:Class[T], id:Array[String]):Option[T]
 //  def find[T](clazz:Class[T], id:Long):T
 
-  def query[T](clazz:Class[T], account:String):java.util.List[T] //Option[java.util.List[T]]
+  def query[T](clazz:Class[T], account:String):Option[java.util.List[T]]
 //  def retrieve[T](id:Long):T
 
 //  def delete[T](clazz:Class[T], id:String)

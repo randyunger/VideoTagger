@@ -45,17 +45,17 @@ class ObjectifyDataStore extends AbstractDataStore {
 //  def query = {
 //    os.query[Object]()
 //  }
-  def query[T](clazz:Class[T], account:String): java.util.List[T] = { //Option[java.util.List[T]] = {
+  def query[T](clazz:Class[T], account:String): Option[java.util.List[T]] = {
+  //java.util.List[T] = { //Option[java.util.List[T]] = {
 //    val l = os.query[T](clazz).filter("accountKey =", new Key(clazz, account)).list
 //    val l = os.query[T](clazz).filter("account", account).list
     val l = os.query[T](clazz).list    //temp
              //no filtering!?
-    l
-//    l.size match{
-//      case 0 => None
-//      case _ => Some(l)
-//    }
-
+//    l
+    l.size match{
+      case 0 => None
+      case _ => Some(l)
+    }
   }
 
 //  def retrieve[T](clazz:Class[T], id:Array[Long]):Option[T] = {

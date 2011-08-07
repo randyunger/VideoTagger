@@ -47,9 +47,13 @@ class HiLitePosition{
   @GET
   @Produces(Array(MediaType.APPLICATION_JSON))
   def get( @QueryParam("id") accountId:String) = {
-    val hiLite = DataService().query(classOf[HiLitePosition], accountId)
-    val json = toJson(hiLite)
-    json
+    DataService().query(classOf[HiLitePosition], accountId) match{
+      case None => ""
+      case Some(x) => toJson(x)
+    }
+//    val hiLitePos = DataService().query(classOf[HiLitePosition], accountId)
+//    val json = toJson(hiLitePos)
+//    json
   }
 
   def toJson(all:java.util.List[HiLitePosition]):String={
