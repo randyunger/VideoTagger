@@ -82,10 +82,16 @@ if (user != null){
         </div>
         <div>
             <input type="button" id="play" value="Play"/>
+            <div id="DEBUG" style="white-space: nowrap">
+                <br>
+                Added Event:<div id="eventLoad"></div>
+                <br>
+                Scene count:<div id="sceneCount"></div>
+            </div>
         </div>
         <div class="adOut">
-            <div class="title"></div>
-            <div class="copy"></div>
+            Title: <div class="title"></div>
+            Copy: <div class="copy"></div>
         </div>
         <%--<div class="slider">--%>
             <%--<input name="speed" type="range" id="speed" min="0" max="200" step="4" value="100">--%>

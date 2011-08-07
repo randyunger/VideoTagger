@@ -1,5 +1,6 @@
 //$(document).ready(function(){
 var myScene, canvas, ctx;
+var xx=0;
 function doDraw() {
 //    var myScene, canvas, ctx;
 
@@ -7,11 +8,15 @@ function doDraw() {
         this.modified = false;
         this.context = ctx;
         this.objs = new Array();
+
         this.add = function(obj) {
+            xx++;
+            $("#DEBUG").find("#sceneCount").html(xx-1);
+//            if(xx > 11) debugger;
             this.modified = true;
             var index;
             if (obj.id) index = obj.id;
-            index = this.objs.length;
+//            index = this.objs.length;
             this.objs[index] = obj;
             return index;
         };
@@ -31,13 +36,11 @@ function doDraw() {
         };
 
         this.click = function(e) {
-//            debugger;
 //            $("#video").get(0).pause();
             var coords = getRelCoords(e);
 //            var len = myScene.objs.length;
 //            for(var i=0;i<len;i++){
             for (var ix in myScene.objs) {
-//                debugger;
                 var obj = myScene.objs[ix];
                 if (obj && obj.click && obj.containsPoint && obj.containsPoint(coords)) {
                     obj.click(coords);
@@ -59,12 +62,12 @@ function doDraw() {
         };
 
         this.draw = function() {
+//            if(xx>2) debugger;
             try {
 //$("#video").get(0).pause();
                 if (myScene && myScene.modified) {
                     myScene.context.clearRect(0, 0, myScene.context.canvas.height, myScene.context.canvas.width);
                     for (i in myScene.objs) {
-//debugger;
                         if (myScene.objs[i] && myScene.objs[i].draw) {
                             myScene.objs[i].draw(myScene.context);
 //                            myScene.objs.length--;             //todo: is this right?
@@ -87,8 +90,8 @@ function doDraw() {
         };
 
         this.remove = function(index) {
-            this.modified = true;   //todo not removing properly
-            delete this.objs[index];
+//            this.modified = true;   //todo not removing properly
+//            delete this.objs[index];
         };
 
         this.serialize = function() {
@@ -132,10 +135,15 @@ function doDraw() {
                 else return false;
             }
             ,click:function(coords) {    //offset from xy
-//                debugger;
-                this.selected = !this.selected;
-                this.xHandle = coords.x - this.x;
-                this.yHandle = coords.y - this.y;
+                if(viewing){
+                    $(".adOut").find(".title").html(ads[this.id].title);
+                    $(".adOut").find(".copy").html(ads[this.id].copy);
+                }
+                else{
+                    this.selected = !this.selected;
+                    this.xHandle = coords.x - this.x;
+                    this.yHandle = coords.y - this.y;
+                }
             }
             ,record:function(time) {
                 function numDecimals(num, places) {
@@ -150,16 +158,17 @@ function doDraw() {
 //                if(timeKey>10)
                 if (!this.selected) return;
 //                    $("#video").get(0).pause();
+                var currentId = $("#adSelect").val();
+
                 var n = //newdata(timeKey);
                 {
                     startTime:timeKey
                     ,endTime:timeKey
                     ,startPos:{x:this.x, y:this.y, height:this.h, width:this.w}
                     ,endPos:{x:this.x, y:this.y, height:this.h, width:this.w}
-                    ,id:-1   //should be id of currently selected Ad
+                    ,id:currentId   //should be id of currently selected Ad
                 };
                 //next, set :id to id of current ad
-                debugger;
 
                 var doAdd = false;
                 if (this.recorded.length == 0) doAdd = true;//this.recorded[this.recorded.length]=n;
@@ -187,25 +196,6 @@ function doDraw() {
         $.extend(true, proto, obj);
         $.extend(true, this, proto);
     }
-
-    // Your code here
-//    var data = [{
-//        startTime:3.5
-//        , endTime:6
-//        , startPos: {x:150, y:120, width:20, height:20}    //x,y,width,height
-//        , endPos:  {x:150, y:120, width:20, height:20}
-//        , id:0
-//    }];
-
-//    data =    [{"startTime":4.363603115081787,"endTime":4.762561798095703,"startPos":{"x":169,"y":53,"height":21,"width":47},"endPos":{"x":169,"y":53,"height":21,"width":47},"id":-1},{"startTime":4.762561798095703,"endTime":4.86256217956543,"startPos":{"x":166,"y":50,"height":21,"width":47},"endPos":{"x":166,"y":50,"height":21,"width":47},"id":1},{"startTime":4.86256217956543,"endTime":5.160521984100342,"startPos":{"x":160,"y":46,"height":21,"width":47},"endPos":{"x":160,"y":46,"height":21,"width":47},"id":2},{"startTime":5.160521984100342,"endTime":5.26052188873291,"startPos":{"x":151,"y":41,"height":21,"width":47},"endPos":{"x":151,"y":41,"height":21,"width":47},"id":3},{"startTime":5.26052188873291,"endTime":5.559481143951416,"startPos":{"x":144,"y":37,"height":21,"width":47},"endPos":{"x":144,"y":37,"height":21,"width":47},"id":4},{"startTime":5.559481143951416,"endTime":5.658481121063232,"startPos":{"x":135,"y":36,"height":21,"width":47},"endPos":{"x":135,"y":36,"height":21,"width":47},"id":5},{"startTime":5.658481121063232,"endTime":5.958439826965332,"startPos":{"x":120,"y":35,"height":21,"width":47},"endPos":{"x":120,"y":35,"height":21,"width":47},"id":6},{"startTime":5.958439826965332,"endTime":6.0594401359558105,"startPos":{"x":103,"y":37,"height":21,"width":47},"endPos":{"x":103,"y":37,"height":21,"width":47},"id":7},{"startTime":6.0594401359558105,"endTime":6.359397888183594,"startPos":{"x":86,"y":44,"height":21,"width":47},"endPos":{"x":86,"y":44,"height":21,"width":47},"id":8},{"startTime":6.359397888183594,"endTime":6.463397979736328,"startPos":{"x":71,"y":55,"height":21,"width":47},"endPos":{"x":71,"y":55,"height":21,"width":47},"id":9},{"startTime":6.463397979736328,"endTime":6.776358127593994,"startPos":{"x":61,"y":69,"height":21,"width":47},"endPos":{"x":61,"y":69,"height":21,"width":47},"id":10},{"startTime":6.776358127593994,"endTime":6.879357814788818,"startPos":{"x":57,"y":81,"height":21,"width":47},"endPos":{"x":57,"y":81,"height":21,"width":47},"id":11},{"startTime":6.879357814788818,"endTime":7.217536926269531,"startPos":{"x":54,"y":101,"height":21,"width":47},"endPos":{"x":54,"y":101,"height":21,"width":47},"id":12},{"startTime":7.217536926269531,"endTime":7.31853723526001,"startPos":{"x":55,"y":115,"height":21,"width":47},"endPos":{"x":55,"y":115,"height":21,"width":47},"id":13},{"startTime":7.31853723526001,"endTime":7.640717029571533,"startPos":{"x":60,"y":119,"height":21,"width":47},"endPos":{"x":60,"y":119,"height":21,"width":47},"id":14},{"startTime":7.640717029571533,"endTime":7.740716934204102,"startPos":{"x":71,"y":131,"height":21,"width":47},"endPos":{"x":71,"y":131,"height":21,"width":47},"id":15},{"startTime":7.740716934204102,"endTime":8.038676261901855,"startPos":{"x":86,"y":136,"height":21,"width":47},"endPos":{"x":86,"y":136,"height":21,"width":47},"id":16},{"startTime":8.038676261901855,"endTime":8.138675689697266,"startPos":{"x":95,"y":130,"height":21,"width":47},"endPos":{"x":95,"y":130,"height":21,"width":47},"id":17},{"startTime":8.138675689697266,"endTime":8.239676475524902,"startPos":{"x":113,"y":106,"height":21,"width":47},"endPos":{"x":113,"y":106,"height":21,"width":47},"id":18},{"startTime":8.239676475524902,"endTime":8.536635398864746,"startPos":{"x":127,"y":87,"height":21,"width":47},"endPos":{"x":127,"y":87,"height":21,"width":47},"id":19},{"startTime":8.536635398864746,"endTime":8.637635231018066,"startPos":{"x":134,"y":74,"height":21,"width":47},"endPos":{"x":134,"y":74,"height":21,"width":47},"id":20},{"startTime":8.637635231018066,"endTime":8.937593460083008,"startPos":{"x":143,"y":63,"height":21,"width":47},"endPos":{"x":143,"y":63,"height":21,"width":47},"id":21},{"startTime":8.937593460083008,"endTime":9.038593292236328,"startPos":{"x":156,"y":50,"height":21,"width":47},"endPos":{"x":156,"y":50,"height":21,"width":47},"id":22},{"startTime":9.038593292236328,"endTime":9.336552619934082,"startPos":{"x":163,"y":48,"height":21,"width":47},"endPos":{"x":163,"y":48,"height":21,"width":47},"id":23},{"startTime":9.336552619934082,"endTime":9.436553001403809,"startPos":{"x":173,"y":64,"height":21,"width":47},"endPos":{"x":173,"y":64,"height":21,"width":47},"id":24},{"startTime":9.436553001403809,"endTime":9.77373218536377,"startPos":{"x":180,"y":80,"height":21,"width":47},"endPos":{"x":180,"y":80,"height":21,"width":47},"id":25},{"startTime":9.77373218536377,"endTime":9.87373161315918,"startPos":{"x":184,"y":95,"height":21,"width":47},"endPos":{"x":184,"y":95,"height":21,"width":47},"id":26},{"startTime":9.87373161315918,"endTime":9.87373161315918,"startPos":{"x":188,"y":103,"height":21,"width":47},"endPos":{"x":188,"y":103,"height":21,"width":47},"id":27}];
-//            [{"startTime":6.932734966278076,"endTime":8.126885414123535,"startPos":{"x":188,"y":17,"height":38,"width":32},"endPos":{"x":188,"y":17,"height":38,"width":32},"id":0},{"startTime":8.126885414123535,"endTime":8.226884841918945,"startPos":{"x":185,"y":19,"height":38,"width":32},"endPos":{"x":185,"y":19,"height":38,"width":32},"id":6},{"startTime":8.226884841918945,"endTime":8.523843765258789,"startPos":{"x":182,"y":22,"height":38,"width":32},"endPos":{"x":182,"y":22,"height":38,"width":32},"id":7},{"startTime":8.523843765258789,"endTime":8.623844146728516,"startPos":{"x":178,"y":23,"height":38,"width":32},"endPos":{"x":178,"y":23,"height":38,"width":32},"id":8},{"startTime":8.623844146728516,"endTime":8.946022033691406,"startPos":{"x":175,"y":26,"height":38,"width":32},"endPos":{"x":175,"y":26,"height":38,"width":32},"id":9},{"startTime":8.946022033691406,"endTime":9.046022415161133,"startPos":{"x":173,"y":28,"height":38,"width":32},"endPos":{"x":173,"y":28,"height":38,"width":32},"id":10},{"startTime":9.046022415161133,"endTime":9.343708992004395,"startPos":{"x":169,"y":30,"height":38,"width":32},"endPos":{"x":169,"y":30,"height":38,"width":32},"id":11},{"startTime":9.343708992004395,"endTime":9.443709373474121,"startPos":{"x":167,"y":33,"height":38,"width":32},"endPos":{"x":167,"y":33,"height":38,"width":32},"id":12},{"startTime":9.443709373474121,"endTime":9.764887809753418,"startPos":{"x":163,"y":35,"height":38,"width":32},"endPos":{"x":163,"y":35,"height":38,"width":32},"id":13},{"startTime":9.764887809753418,"endTime":9.864888191223145,"startPos":{"x":159,"y":38,"height":38,"width":32},"endPos":{"x":159,"y":38,"height":38,"width":32},"id":14},{"startTime":9.864888191223145,"endTime":9.864888191223145,"startPos":{"x":155,"y":42,"height":38,"width":32},"endPos":{"x":155,"y":42,"height":38,"width":32},"id":15}];
-//    var data;
-//    if(posData && posData[0]){
-//        data = posData[0];
-//    }
-//    else{
-//        data = [{"startTime":2.4618349075317383,"endTime":2.763355016708374,"startPos":{"x":171,"y":24,"height":23,"width":34},"endPos":{"x":171,"y":24,"height":23,"width":34},"id":0},{"startTime":2.763355016708374,"endTime":2.8633549213409424,"startPos":{"x":165,"y":24,"height":23,"width":34},"endPos":{"x":165,"y":24,"height":23,"width":34},"id":0},{"startTime":2.8633549213409424,"endTime":2.9591140747070312,"startPos":{"x":156,"y":24,"height":23,"width":34},"endPos":{"x":156,"y":24,"height":23,"width":34},"id":0},{"startTime":2.9591140747070312,"endTime":3.0591139793395996,"startPos":{"x":149,"y":24,"height":23,"width":34},"endPos":{"x":149,"y":24,"height":23,"width":34},"id":0},{"startTime":3.0591139793395996,"endTime":3.154874086380005,"startPos":{"x":144,"y":25,"height":23,"width":34},"endPos":{"x":144,"y":25,"height":23,"width":34},"id":0},{"startTime":3.154874086380005,"endTime":3.2548739910125732,"startPos":{"x":132,"y":27,"height":23,"width":34},"endPos":{"x":132,"y":27,"height":23,"width":34},"id":0},{"startTime":3.2548739910125732,"endTime":3.36063289642334,"startPos":{"x":124,"y":28,"height":23,"width":34},"endPos":{"x":124,"y":28,"height":23,"width":34},"id":0},{"startTime":3.36063289642334,"endTime":3.4606330394744873,"startPos":{"x":113,"y":28,"height":23,"width":34},"endPos":{"x":113,"y":28,"height":23,"width":34},"id":0},{"startTime":3.4606330394744873,"endTime":3.5563929080963135,"startPos":{"x":105,"y":28,"height":23,"width":34},"endPos":{"x":105,"y":28,"height":23,"width":34},"id":0},{"startTime":3.5563929080963135,"endTime":3.657392978668213,"startPos":{"x":93,"y":29,"height":23,"width":34},"endPos":{"x":93,"y":29,"height":23,"width":34},"id":0},{"startTime":3.657392978668213,"endTime":3.763153076171875,"startPos":{"x":81,"y":31,"height":23,"width":34},"endPos":{"x":81,"y":31,"height":23,"width":34},"id":0},{"startTime":3.763153076171875,"endTime":3.858513116836548,"startPos":{"x":74,"y":36,"height":23,"width":34},"endPos":{"x":74,"y":36,"height":23,"width":34},"id":0},{"startTime":3.858513116836548,"endTime":3.958513021469116,"startPos":{"x":71,"y":42,"height":23,"width":34},"endPos":{"x":71,"y":42,"height":23,"width":34},"id":0},{"startTime":3.958513021469116,"endTime":4.064272880554199,"startPos":{"x":70,"y":47,"height":23,"width":34},"endPos":{"x":70,"y":47,"height":23,"width":34},"id":0},{"startTime":4.064272880554199,"endTime":4.164272785186768,"startPos":{"x":72,"y":52,"height":23,"width":34},"endPos":{"x":72,"y":52,"height":23,"width":34},"id":0},{"startTime":4.164272785186768,"endTime":4.260033130645752,"startPos":{"x":81,"y":55,"height":23,"width":34},"endPos":{"x":81,"y":55,"height":23,"width":34},"id":0},{"startTime":4.260033130645752,"endTime":4.36003303527832,"startPos":{"x":95,"y":56,"height":23,"width":34},"endPos":{"x":95,"y":56,"height":23,"width":34},"id":0},{"startTime":4.36003303527832,"endTime":4.45579195022583,"startPos":{"x":111,"y":56,"height":23,"width":34},"endPos":{"x":111,"y":56,"height":23,"width":34},"id":0},{"startTime":4.45579195022583,"endTime":4.555791854858398,"startPos":{"x":129,"y":53,"height":23,"width":34},"endPos":{"x":129,"y":53,"height":23,"width":34},"id":0},{"startTime":4.555791854858398,"endTime":4.6615519523620605,"startPos":{"x":143,"y":52,"height":23,"width":34},"endPos":{"x":143,"y":52,"height":23,"width":34},"id":0},{"startTime":4.6615519523620605,"endTime":4.761551856994629,"startPos":{"x":157,"y":52,"height":23,"width":34},"endPos":{"x":157,"y":52,"height":23,"width":34},"id":0},{"startTime":4.761551856994629,"endTime":4.858312129974365,"startPos":{"x":170,"y":54,"height":23,"width":34},"endPos":{"x":170,"y":54,"height":23,"width":34},"id":0},{"startTime":4.858312129974365,"endTime":4.958312034606934,"startPos":{"x":179,"y":62,"height":23,"width":34},"endPos":{"x":179,"y":62,"height":23,"width":34},"id":0},{"startTime":4.958312034606934,"endTime":5.064071178436279,"startPos":{"x":188,"y":72,"height":23,"width":34},"endPos":{"x":188,"y":72,"height":23,"width":34},"id":0},{"startTime":5.064071178436279,"endTime":5.1598310470581055,"startPos":{"x":189,"y":75,"height":23,"width":34},"endPos":{"x":189,"y":75,"height":23,"width":34},"id":0},{"startTime":5.1598310470581055,"endTime":5.259830951690674,"startPos":{"x":188,"y":75,"height":23,"width":34},"endPos":{"x":188,"y":75,"height":23,"width":34},"id":0},{"startTime":5.259830951690674,"endTime":5.3655900955200195,"startPos":{"x":174,"y":73,"height":23,"width":34},"endPos":{"x":174,"y":73,"height":23,"width":34},"id":0},{"startTime":5.3655900955200195,"endTime":5.465590000152588,"startPos":{"x":155,"y":71,"height":23,"width":34},"endPos":{"x":155,"y":71,"height":23,"width":34},"id":0},{"startTime":5.465590000152588,"endTime":5.562748908996582,"startPos":{"x":132,"y":71,"height":23,"width":34},"endPos":{"x":132,"y":71,"height":23,"width":34},"id":0},{"startTime":5.562748908996582,"endTime":5.66274881362915,"startPos":{"x":111,"y":71,"height":23,"width":34},"endPos":{"x":111,"y":71,"height":23,"width":34},"id":0},{"startTime":5.66274881362915,"endTime":5.759509086608887,"startPos":{"x":99,"y":73,"height":23,"width":34},"endPos":{"x":99,"y":73,"height":23,"width":34},"id":0},{"startTime":5.759509086608887,"endTime":5.859508991241455,"startPos":{"x":79,"y":95,"height":23,"width":34},"endPos":{"x":79,"y":95,"height":23,"width":34},"id":0},{"startTime":5.859508991241455,"endTime":6.261027812957764,"startPos":{"x":71,"y":104,"height":23,"width":34},"endPos":{"x":71,"y":104,"height":23,"width":34},"id":0},{"startTime":6.261027812957764,"endTime":6.366787910461426,"startPos":{"x":69,"y":114,"height":23,"width":34},"endPos":{"x":69,"y":114,"height":23,"width":34},"id":0},{"startTime":6.366787910461426,"endTime":6.46314811706543,"startPos":{"x":65,"y":127,"height":23,"width":34},"endPos":{"x":65,"y":127,"height":23,"width":34},"id":0},{"startTime":6.46314811706543,"endTime":6.56414794921875,"startPos":{"x":63,"y":137,"height":23,"width":34},"endPos":{"x":63,"y":137,"height":23,"width":34},"id":0},{"startTime":6.56414794921875,"endTime":6.668306827545166,"startPos":{"x":62,"y":144,"height":23,"width":34},"endPos":{"x":62,"y":144,"height":23,"width":34},"id":0},{"startTime":6.668306827545166,"endTime":6.768307209014893,"startPos":{"x":60,"y":146,"height":23,"width":34},"endPos":{"x":60,"y":146,"height":23,"width":34},"id":0},{"startTime":6.768307209014893,"endTime":6.865667819976807,"startPos":{"x":62,"y":147,"height":23,"width":34},"endPos":{"x":62,"y":147,"height":23,"width":34},"id":0},{"startTime":6.865667819976807,"endTime":6.965668201446533,"startPos":{"x":68,"y":144,"height":23,"width":34},"endPos":{"x":68,"y":144,"height":23,"width":34},"id":0},{"startTime":6.965668201446533,"endTime":7.061427116394043,"startPos":{"x":75,"y":137,"height":23,"width":34},"endPos":{"x":75,"y":137,"height":23,"width":34},"id":0},{"startTime":7.061427116394043,"endTime":7.161427021026611,"startPos":{"x":82,"y":129,"height":23,"width":34},"endPos":{"x":82,"y":129,"height":23,"width":34},"id":0},{"startTime":7.161427021026611,"endTime":7.266585826873779,"startPos":{"x":86,"y":122,"height":23,"width":34},"endPos":{"x":86,"y":122,"height":23,"width":34},"id":0},{"startTime":7.266585826873779,"endTime":7.366586208343506,"startPos":{"x":93,"y":113,"height":23,"width":34},"endPos":{"x":93,"y":113,"height":23,"width":34},"id":0},{"startTime":7.366586208343506,"endTime":7.462945938110352,"startPos":{"x":103,"y":103,"height":23,"width":34},"endPos":{"x":103,"y":103,"height":23,"width":34},"id":0},{"startTime":7.462945938110352,"endTime":7.56294584274292,"startPos":{"x":115,"y":95,"height":23,"width":34},"endPos":{"x":115,"y":95,"height":23,"width":34},"id":0},{"startTime":7.56294584274292,"endTime":7.66770601272583,"startPos":{"x":127,"y":88,"height":23,"width":34},"endPos":{"x":127,"y":88,"height":23,"width":34},"id":0},{"startTime":7.66770601272583,"endTime":7.763465881347656,"startPos":{"x":140,"y":86,"height":23,"width":34},"endPos":{"x":140,"y":86,"height":23,"width":34},"id":0},{"startTime":7.763465881347656,"endTime":7.863465785980225,"startPos":{"x":152,"y":86,"height":23,"width":34},"endPos":{"x":152,"y":86,"height":23,"width":34},"id":0},{"startTime":7.863465785980225,"endTime":7.9612250328063965,"startPos":{"x":163,"y":86,"height":23,"width":34},"endPos":{"x":163,"y":86,"height":23,"width":34},"id":0},{"startTime":7.9612250328063965,"endTime":8.167984962463379,"startPos":{"x":165,"y":87,"height":23,"width":34},"endPos":{"x":165,"y":87,"height":23,"width":34},"id":0},{"startTime":8.167984962463379,"endTime":8.267985343933105,"startPos":{"x":166,"y":87,"height":23,"width":34},"endPos":{"x":166,"y":87,"height":23,"width":34},"id":0},{"startTime":8.267985343933105,"endTime":8.365744590759277,"startPos":{"x":175,"y":96,"height":23,"width":34},"endPos":{"x":175,"y":96,"height":23,"width":34},"id":0},{"startTime":8.365744590759277,"endTime":8.465744972229004,"startPos":{"x":184,"y":108,"height":23,"width":34},"endPos":{"x":184,"y":108,"height":23,"width":34},"id":0},{"startTime":8.465744972229004,"endTime":8.570504188537598,"startPos":{"x":188,"y":115,"height":23,"width":34},"endPos":{"x":188,"y":115,"height":23,"width":34},"id":0},{"startTime":8.570504188537598,"endTime":8.670503616333008,"startPos":{"x":193,"y":123,"height":23,"width":34},"endPos":{"x":193,"y":123,"height":23,"width":34},"id":0},{"startTime":8.670503616333008,"endTime":8.767264366149902,"startPos":{"x":196,"y":128,"height":23,"width":34},"endPos":{"x":196,"y":128,"height":23,"width":34},"id":0},{"startTime":8.767264366149902,"endTime":8.873023986816406,"startPos":{"x":203,"y":133,"height":23,"width":34},"endPos":{"x":203,"y":133,"height":23,"width":34},"id":0},{"startTime":8.873023986816406,"endTime":8.973024368286133,"startPos":{"x":215,"y":132,"height":23,"width":34},"endPos":{"x":215,"y":132,"height":23,"width":34},"id":0},{"startTime":8.973024368286133,"endTime":9.068782806396484,"startPos":{"x":225,"y":123,"height":23,"width":34},"endPos":{"x":225,"y":123,"height":23,"width":34},"id":0},{"startTime":9.068782806396484,"endTime":9.169782638549805,"startPos":{"x":227,"y":112,"height":23,"width":34},"endPos":{"x":227,"y":112,"height":23,"width":34},"id":0},{"startTime":9.169782638549805,"endTime":9.265542984008789,"startPos":{"x":227,"y":99,"height":23,"width":34},"endPos":{"x":227,"y":99,"height":23,"width":34},"id":0},{"startTime":9.265542984008789,"endTime":9.365543365478516,"startPos":{"x":227,"y":87,"height":23,"width":34},"endPos":{"x":227,"y":87,"height":23,"width":34},"id":0},{"startTime":9.365543365478516,"endTime":9.47230339050293,"startPos":{"x":223,"y":80,"height":23,"width":34},"endPos":{"x":223,"y":80,"height":23,"width":34},"id":0},{"startTime":9.47230339050293,"endTime":9.57230281829834,"startPos":{"x":219,"y":72,"height":23,"width":34},"endPos":{"x":219,"y":72,"height":23,"width":34},"id":0},{"startTime":9.57230281829834,"endTime":9.668062210083008,"startPos":{"x":214,"y":66,"height":23,"width":34},"endPos":{"x":214,"y":66,"height":23,"width":34},"id":0},{"startTime":9.668062210083008,"endTime":9.768061637878418,"startPos":{"x":207,"y":60,"height":23,"width":34},"endPos":{"x":207,"y":60,"height":23,"width":34},"id":0},{"startTime":9.768061637878418,"endTime":9.873822212219238,"startPos":{"x":198,"y":57,"height":23,"width":34},"endPos":{"x":198,"y":57,"height":23,"width":34},"id":0},{"startTime":9.873822212219238,"endTime":9.973821640014648,"startPos":{"x":188,"y":51,"height":23,"width":34},"endPos":{"x":188,"y":51,"height":23,"width":34},"id":0},{"startTime":9.973821640014648,"endTime":9.973821640014648,"startPos":{"x":170,"y":43,"height":23,"width":34},"endPos":{"x":170,"y":43,"height":23,"width":34},"id":0}] ;
-//    }
 //    var myScene = new Scene(ctx);
 //        var timeLine = new function(){
 
@@ -216,69 +206,93 @@ function doDraw() {
 
     var timeLine = new function() {
         this.data = null;
+        this.lastIndex = 0;
         this.events = new function() {
             this.eventList = new Array();
-            this.put = function(time, id, action) {
-                if (this.eventList[time + "/" + id]) {
-                    time = parseFloat(time + "01"); //to prevent collisions
+            this.put = function(time, pos, id, action) {
+                if (this.eventList[time]) { //if (this.eventList[time + "/" + id]) {
+                    if ((time+"").indexOf(".") == -1) time = parseFloat(time + ".01"); //to prevent collisions
+                    else time = parseFloat(time + "01")
                 }
-                this.eventList[time + "/" + id] = {time:time, id:id, action:action};
+                this.eventList[this.eventList.length] = {
+                     adId:id
+                    ,time:time
+                    ,pos:pos
+                    ,action:action
+                };
+//                this.eventList[time + "/" + id] = {time:time, id:id, action:action};
 //                    if(this.eventList[key] == null) this.eventList[key] = new Array();
 //                    this.eventList[key][this.eventList[key].length] = {key:key, id:id, action:action};
             };
             this.get = function(time) {
-//                    $("#video").get(0).pause();
-                var list = new Array();
-                for (var storedTime in this.eventList) {
-                    if (time >= storedTime.substr(0, storedTime.indexOf("/"))) {
-                        list[list.length] = this.eventList[storedTime];
-                        delete this.eventList[storedTime];
-                    }
+                var eventsToProcess = new Array();
+                while(this.eventList[timeLine.lastIndex].time < time){
+                    eventsToProcess.unshift(this.eventList[timeLine.lastIndex]); //add to list
+                    timeLine.lastIndex++; //increment so we never view the same index twice
                 }
-//                    $("#video").get(0).play();
-                return list;
+                return eventsToProcess;
             };
+
+//                    $("#video").get(0).pause();
+//                var list = new Array();
+//                for (var storedTime in this.eventList) {
+//                    if (time >= storedTime.substr(0, storedTime.indexOf("/"))) {
+//                        list[list.length] = this.eventList[storedTime];
+//                        delete this.eventList[storedTime];
+//                    }
+//                }
+////                    $("#video").get(0).play();
+//                return list;
+//            };
         };
         this.register = function(input) {
-debugger;
             this.data = input;
             for (var item in input) {
-                this.events.put(input[item].startTime, input[item].id, "START");
-                this.events.put(input[item].endTime, input[item].id, "END");
+                this.events.put(input[item].startTime, input[item].startPos, input[item].id, "START");
+                this.events.put(input[item].endTime, input[item].endPos, input[item].id, "END");
+                //todo: sort event list??
             }
         };
         this.checkEvents = function(selector) {
             return this.events.get($(selector).get(0).currentTime)
 
         };
-        this.doEvents = function(eventList) {     //todo:adding object with id 0 each time!
-
+        this.doEvents = function(currentEvents) {
 //            $("#video").get(0).pause();
             var i = -1;
-            for (var event in eventList) {
+            for (var event in currentEvents) {
                 i++;
-                var mostRecentEvent = eventList[i];
-                var eventData = this.data[i];
-//                debugger;
+                //Get shape data
+//                var currentEvent = eventList[i];
+
+                //get ad data
+                //create new shape with ad data
+                //load new shape
+
+
+
+                var currentEvent = currentEvents[i];
 //                var eventData = this.data[eventList[event].id];   //todo: i think this is the line that is wrong
-                if (eventList[event].action == "START") {
+                if (currentEvent.action == "START") {
                     var newRect = new Rectangle({
-                        id:eventData.id
+                        id:currentEvent.adId
                         ,color:"rgba(100,100,100,0.8)"
-                        ,x:eventData.startPos.x
-                        ,y:eventData.startPos.y
-                        ,w:eventData.startPos.width
-                        ,h:eventData.startPos.height
+                        ,x:currentEvent.pos.x
+                        ,y:currentEvent.pos.y
+                        ,w:currentEvent.pos.width
+                        ,h:currentEvent.pos.height
                     });
+                    $("#DEBUG").find("#eventLoad").html(JSON.stringify(newRect));
+                    myScene.add(newRect);
 //                    eventData.id = myScene.add(newRect); //todo: is this also wrong?
-                    mostRecentEvent.id = myScene.add(newRect);
+//                    mostRecentEvent.id = myScene.add(newRect);
 
 //                    ctx.fillRect(eventData.startPos.x, eventData.startPos.y, eventData.startPos.width, eventData.startPos.height);
 //                    ctx.clearRect(eventData.startPos.x+borderWidth, eventData.startPos.y+borderWidth
 //                            , eventData.startPos.width-borderWidth*2, eventData.startPos.height-borderWidth*2);
                 }
-                else if (eventList[event].action == "END") { //Should clear canvas and redraw
-                    myScene.remove(eventData.id);
+                else if (currentEvent.action == "END") { //Should clear canvas and redraw
+                    myScene.remove(currentEvent.adId);
 //                    ctx.clearRect(eventData.endPos.x, eventData.endPos.y, eventData.endPos.width, eventData.endPos.height);
                 }
 //                $("#video").get(0).play();  //only needed for debugging
@@ -286,8 +300,8 @@ debugger;
         };
         this.startPoll = function(selector) {
             window.setTimeout(function() {
-                var eventList = timeLine.checkEvents(selector);
-                if (eventList.length > 0) timeLine.doEvents(eventList);
+                var currentEvents = timeLine.checkEvents(selector);
+                if (currentEvents.length > 0) timeLine.doEvents(currentEvents);
                 timeLine.startPoll(selector);          //test comment//another
             }, 100)
         };
@@ -383,6 +397,7 @@ debugger;
     };
 
     canvas.onclick = function(event) {
+        if (viewing) myScene.click(event);  //if viewing, just pass along
         if (canvas.rMode == "draw") canvas.rMode = "select";
 
 
