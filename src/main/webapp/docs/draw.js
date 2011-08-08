@@ -317,6 +317,9 @@ function doDraw() {
 
     function startVideo() {
         //    $("#video").get(0).pause();
+
+        if(ads==null || pos==null) return;
+
         try {
             if (viewing) {
                 var oneHiLite, oneAdId, onePosId;

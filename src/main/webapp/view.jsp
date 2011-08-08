@@ -40,7 +40,9 @@ if (user != null){
 //    DataService.getInstance().retrieve()
 
     if(!user.getEmail().toLowerCase().equals("randy.unger@gmail.com") &&
-       !user.getEmail().toLowerCase().equals("test@example.com")    ){
+       !user.getEmail().toLowerCase().equals("test@example.com") &&
+       !user.getEmail().toLowerCase().equals("apptestrandy@gmail.com")
+            ){
         response.sendRedirect("/index.jsp");
     }
 
@@ -59,9 +61,14 @@ if (user != null){
     <link rel="stylesheet" href="docs/styles.css" type="text/css">
     <script type="text/javascript">
         var viewing = true;
-        var ads = JSON.parse(<%=adJ%>);
-        var pos = JSON.parse(<%=posJ%>);
-        var hiLites = JSON.parse(<%=hiLites%>);
+        var ads = null;
+        var pos = null;
+        var hiLites = null;
+        try{
+            ads = JSON.parse(<%=adJ%>);
+            pos = JSON.parse(<%=posJ%>);
+            hiLites = JSON.parse(<%=hiLites%>);
+        }catch(e){}
 //        var a = 1+1
 //        a+2
     </script>

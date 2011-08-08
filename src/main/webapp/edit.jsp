@@ -29,7 +29,9 @@ if (user != null){
 //    DataService.getInstance().retrieve()
 
     if(!user.getEmail().toLowerCase().equals("randy.unger@gmail.com") &&
-       !user.getEmail().toLowerCase().equals("test@example.com")    ){
+       !user.getEmail().toLowerCase().equals("test@example.com") &&
+       !user.getEmail().toLowerCase().equals("apptestrandy@gmail.com")
+            ){
         response.sendRedirect("/index.jsp");
     }
 
@@ -48,8 +50,12 @@ if (user != null){
     <link rel="stylesheet" href="docs/styles.css" type="text/css">
     <script type="text/javascript">
         var viewing = false;
-        var ads = JSON.parse(<%=adJ%>);
-        var pos = JSON.parse(<%=posJ%>);
+        var ads = null;
+        var pos = null;
+        try{
+            ads = JSON.parse(<%=adJ%>);
+            pos = JSON.parse(<%=posJ%>);
+        }catch(e){}
 //        var a = 1+1
 //        a+2
     </script>
@@ -104,6 +110,8 @@ if (user != null){
 
         </div>
     </div>
+
+    <%--Buy <a href = 'http://www.amazon.com/Solid-Multiful-Formal-boxed-gift-Periwinkle/dp/B001UESTXK/ref=sr_1_1?ie=UTF8&qid=1312754974&sr=8-1' target=_> this tie </a> at Amazon.com today!--%>
 
     <script type="text/javascript" src="docs/jquery.js"></script>
 

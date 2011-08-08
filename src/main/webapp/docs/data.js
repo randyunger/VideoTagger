@@ -27,12 +27,14 @@ function loadInitData(email){
 //        }
 //    });
     //page includes data
-    if(ads){
-//        for(var i=0;i<ads.length;i++){
-        for(ix in ads){
-            $('#adSelect').append($("<option></option>").attr("value",ix).text(ads[ix].title));
+    try{
+        if(ads){
+    //        for(var i=0;i<ads.length;i++){
+            for(ix in ads){
+                $('#adSelect').append($("<option></option>").attr("value",ix).text(ads[ix].title));
+            }
         }
-    }
+    }catch(e){}
     $('#adSelect').change(function(){
         var ix = $("#adSelect").val();
         if(ix==0){  //New ad
@@ -66,7 +68,6 @@ function hookupButtons (){
              type:"ad"
             ,value:$("#saveAd").closest("form").find(":input").serialize()
             ,success:function(data){
-                debugger;
                 var newAds = JSON.parse(data);
                 var ad;
                 for(ad in newAds){
